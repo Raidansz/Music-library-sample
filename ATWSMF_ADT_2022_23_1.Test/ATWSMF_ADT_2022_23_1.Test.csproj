@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ATWSMF_ADT_2022_23_1.Logic\ATWSMF_ADT_2022_23_1.Logic.csproj" />
+    <ProjectReference Include="..\ATWSMF_ADT_2022_23_1.Models\ATWSMF_ADT_2022_23_1.Models.csproj" />
+    <ProjectReference Include="..\ATWSMF_ADT_2022_23_1.Repository\ATWSMF_ADT_2022_23_1.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
