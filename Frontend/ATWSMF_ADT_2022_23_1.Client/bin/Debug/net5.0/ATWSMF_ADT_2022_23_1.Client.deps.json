@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "ATWSMF_ADT_2022_23_1.Client/1.0.0": {
+        "runtime": {
+          "ATWSMF_ADT_2022_23_1.Client.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ATWSMF_ADT_2022_23_1.Client/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
