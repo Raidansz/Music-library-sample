@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\ATWSMF_ADT_2022_23_1.Models\ATWSMF_ADT_2022_23_1.Models.csproj" />
+    <ProjectReference Include="..\Backend\ATWSMF_ADT_2022_23_1.Data\ATWSMF_ADT_2022_23_1.Data.csproj" />
   </ItemGroup>
 
 </Project>
