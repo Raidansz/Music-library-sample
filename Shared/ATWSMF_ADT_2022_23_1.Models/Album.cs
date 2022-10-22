@@ -16,7 +16,8 @@ namespace ATWSMF_ADT_2022_23_1.Models
         //Navigation prop
         public virtual ICollection<Song> Songs { get; set; }
 
-        // public int ArtistId { get; set; }
-        // public virtual Artist Artist { get; set; }
+        public int ArtistId { get; set; }
+        public virtual Artist Artist { get; set; }
+
     }
 }
