@@ -16,9 +16,9 @@ namespace ATWSMF_ADT_2022_23_1.Data
         {
             
                 // ARTISTS
-                Artist Billie = new Artist { Id = 1, Name = "Billie", Country = "USA" };
-                Artist Ava = new Artist { Id = 2, Name = "Ava Max", Country = "USA" };
-                Artist Taylor = new Artist { Id = 3, Name = "Taylor Swift", Country = "KU" };
+                Artist Billie = new Artist { Id = 1, Name = "Billie Eilish", Nationality = "American" };
+                Artist Ava = new Artist { Id = 2, Name = "Ava Max", Nationality = "Albanian" };
+                Artist Taylor = new Artist { Id = 3, Name = "Taylor Swift", Nationality = "American" };
 
            // ALBUMS
            Album A1 = new Album { Id = 1, Name = "Speak Now", ArtistId = Taylor.Id };
@@ -41,8 +41,8 @@ namespace ATWSMF_ADT_2022_23_1.Data
 
 
             modelBuilder.Entity<Artist>().HasData(Billie, Ava, Taylor);
-                modelBuilder.Entity<Album>().HasData(A1, A2, A3, A4);
-                modelBuilder.Entity<Song>().HasData(T1, T2, T4, T5, T6, T7);
+            modelBuilder.Entity<Album>().HasData(A1, A2, A3, A4);
+            modelBuilder.Entity<Song>().HasData(T1, T2, T4, T5, T6, T7);
 
 
 
