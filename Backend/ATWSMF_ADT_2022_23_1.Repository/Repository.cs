@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,29 +9,34 @@ namespace ATWSMF_ADT_2022_23_1.Repository
 {
     public abstract class Repository<T> : IRepository<T> where T : class
     {
+        protected DbContext context;
+
+        public Repository(DbContext context)
+        {
+            this.context = context;
+        }
+
         public void AddNew(T entity)
         {
-            throw new NotImplementedException();
+            context.Set<T>().Add(entity);
         }
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            context.Set<T>().Remove(entity);
         }
 
         public IQueryable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Set<T>();
         }
 
-        public T GetOne(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract T GetOne(int id);
+        
 
         public void Update(int id, T entity)
         {
-            throw new NotImplementedException();
+            context.Set<T>().Update(entity);
         }
     }
 }
