@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ATWSMF_ADT_2022_23_1.Models\ATWSMF_ADT_2022_23_1.Models.csproj" />
+    <ProjectReference Include="..\..\Shared\ATWSMF_ADT_2022_23_1.Models\ATWSMF_ADT_2022_23_1.Models.csproj" />
     <ProjectReference Include="..\ATWSMF_ADT_2022_23_1.Repository\ATWSMF_ADT_2022_23_1.Repository.csproj" />
   </ItemGroup>
 

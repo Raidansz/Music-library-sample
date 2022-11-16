@@ -16,6 +16,8 @@ namespace ATWSMF_ADT_2022_23_1.Repository
             this.context = context;
         }
 
+        public IEnumerable<T> Entities { get; set; }
+
         public void AddNew(T entity)
         {
             context.Set<T>().Add(entity);

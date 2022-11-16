@@ -13,5 +13,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
         
         IList<Artist> GetAllArtist();
         void AddArtist(Artist newArtist);
+
+        Artist GetArtistByName(string name);
     }
 }

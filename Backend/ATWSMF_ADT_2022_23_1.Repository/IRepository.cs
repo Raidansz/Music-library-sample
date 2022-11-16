@@ -13,6 +13,6 @@ namespace ATWSMF_ADT_2022_23_1.Repository
         void Update(int id, T entity);
         void AddNew(T entity);
         void Delete(T entity);
-
+        IEnumerable<T> Entities { get; set; }
     }
 }

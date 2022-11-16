@@ -10,7 +10,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
     public interface IAlbumLogic
     {
         Album GetOneAlbum(int id);
-       // void ChangeSongDuration(int id, int newDuration);
+      
         IList<Album> GetAllAlbums();
     }
 }
