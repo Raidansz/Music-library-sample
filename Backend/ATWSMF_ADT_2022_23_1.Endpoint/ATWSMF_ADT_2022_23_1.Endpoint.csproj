@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <StartupObject>ATWSMF_ADT_2022_23_1.Endpoint.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

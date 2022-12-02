@@ -18,6 +18,25 @@ namespace ATWSMF_ADT_2022_23_1.Logic
             AlbumRepository = albumRepository;
         }
 
+        public void AddNewAlbum(Album album)
+        {
+            AlbumRepository.AddNew(album);
+
+        }
+
+        public void ChangeAlbumTitle(int id, string newTitle)
+        {
+            if (newTitle == "")
+                throw new Exception("[ERR] Title can't be empty!");
+
+            AlbumRepository.ChangeTitle(id, newTitle);
+        }
+
+        public void DeleteAlbum(int id)
+        {
+            
+        }
+
         public IList<Album> GetAllAlbums()
         {
             return AlbumRepository.GetAll().ToList();
@@ -26,6 +45,11 @@ namespace ATWSMF_ADT_2022_23_1.Logic
         public Album GetOneAlbum(int id)
         {
             return this.AlbumRepository.GetOne(id);
+        }
+
+        public void UpdateAlbum(Album album)
+        {
+            throw new NotImplementedException();
         }
     }
 }

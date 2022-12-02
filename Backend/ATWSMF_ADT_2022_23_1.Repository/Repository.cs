@@ -34,7 +34,8 @@ namespace ATWSMF_ADT_2022_23_1.Repository
         }
 
         public abstract T GetOne(int id);
-        
+
+        public abstract T GetOneByName(string title);
 
         public void Update(int id, T entity)
         {

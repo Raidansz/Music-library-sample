@@ -1,6 +1,10 @@
+using ATWSMF_ADT_2022_23_1.Data;
+using ATWSMF_ADT_2022_23_1.Logic;
+using ATWSMF_ADT_2022_23_1.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -16,6 +20,17 @@ namespace ATWSMF_ADT_2022_23_1.Endpoint
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: show Add dependencies in the order they are needed!
+            services.AddTransient<DbContext, SongContext>();
+            services.AddTransient<IArtistRepository, ArtistRepository>();
+            services.AddTransient<IAlbumRepository, AlbumRepository>();
+            services.AddTransient<ISongRepository, SongRepository>();
+            services.AddTransient<IArtistLogic, ArtistLogic>();
+            services.AddTransient<IAlbumLogic, AlbumLogic>();
+            services.AddTransient<ISongLogic, SongLogic>();
+
+            // TODO: show Add controllers
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -28,12 +43,12 @@ namespace ATWSMF_ADT_2022_23_1.Endpoint
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
+
+
+            app.UseEndpoints((config) =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                // TODO: show register the controllers
+                config.MapControllers();
             });
         }
     }

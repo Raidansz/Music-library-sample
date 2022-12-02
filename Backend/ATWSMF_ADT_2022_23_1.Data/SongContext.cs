@@ -32,7 +32,7 @@ namespace ATWSMF_ADT_2022_23_1.Data
             }
             else
             {
-                optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\songdb.mdf;Integrated Security=True; MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\songsdb.mdf;Integrated Security=True; MultipleActiveResultSets=true");
             }
 
 
@@ -102,8 +102,8 @@ namespace ATWSMF_ADT_2022_23_1.Data
             //});
 
 
-            DbSeed dbSeed = new DbSeed();
-            dbSeed.OnModelCreating(modelBuilder);
+            //DbSeed dbSeed = new DbSeed();
+            //dbSeed.OnModelCreating(modelBuilder);
 
 
             base.OnModelCreating(modelBuilder);

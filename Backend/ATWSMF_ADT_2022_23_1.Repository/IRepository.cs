@@ -10,6 +10,7 @@ namespace ATWSMF_ADT_2022_23_1.Repository
     {
         IQueryable<T> GetAll();
         T GetOne(int id);
+        T GetOneByName(string title);
         void Update(int id, T entity);
         void AddNew(T entity);
         void Delete(T entity);

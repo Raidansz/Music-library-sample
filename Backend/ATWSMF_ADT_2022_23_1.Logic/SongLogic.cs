@@ -17,6 +17,18 @@ namespace ATWSMF_ADT_2022_23_1.Logic
             SongRepository = songRepository;
         }
 
+        public void AddNewSong(Song song)
+        {
+            SongRepository.AddNew(song);
+        }
+
+        public void ChangeSongTitle(int id, string newTitle)
+        {
+            if (newTitle == "")
+                throw new Exception("[ERR] Title can't be empty!");
+            SongRepository.ChangeTitle(id,newTitle);
+        }
+
         public void DeleteSong(int id)
         {
             SongRepository.Delete(GetOneSong(id));
@@ -32,7 +44,10 @@ namespace ATWSMF_ADT_2022_23_1.Logic
             return this.SongRepository.GetOne(id);
         }
 
-     
+        public void UpdateSong(Song song)
+        {
+            throw new NotImplementedException();
+        }
 
         IList<Song> ISongLogic.GetSongsByNameOfArtist(string name)
         {

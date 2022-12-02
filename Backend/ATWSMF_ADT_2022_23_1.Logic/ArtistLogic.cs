@@ -36,16 +36,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
 
         public Artist GetArtistByName(string name)
         {
-            Artist artist = null;
-
-            foreach (Artist artistItem in ArtistRepository.GetAll())
-            {
-                if (artistItem.Name == name)
-                {
-                    artist = artistItem;
-                }
-            }
-            return artist;
+           return ArtistRepository.GetOneByName(name);
         }
     }
 }
