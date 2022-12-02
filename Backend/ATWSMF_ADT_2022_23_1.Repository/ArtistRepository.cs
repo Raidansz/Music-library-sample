@@ -48,7 +48,11 @@ namespace ATWSMF_ADT_2022_23_1.Repository
 
         public void UpdateArtist(Artist artist)
         {
-            throw new NotImplementedException();
+            var toUpdate = GetOne(artist.Id);
+
+            toUpdate = artist;
+
+            context.SaveChanges();
         }
     }
 }

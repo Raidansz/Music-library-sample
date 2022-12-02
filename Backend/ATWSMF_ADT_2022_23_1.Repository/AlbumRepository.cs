@@ -53,8 +53,6 @@ namespace ATWSMF_ADT_2022_23_1.Repository
             var toUpdate = GetOne(album.Id);
 
             toUpdate = album;
-           
-            
 
             context.SaveChanges();
         }

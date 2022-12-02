@@ -91,19 +91,7 @@ namespace ATWSMF_ADT_2022_23_1.Data
             });
 
 
-            //modelBuilder.Entity<Album>(e =>
-            //{
-
-            //    e.HasKey(c => c.Id);
-            //    e.HasOne(c => c.Artist).WithMany(v => v.Albums);
-            //    e.Property(v => v.Id).ValueGeneratedOnAdd();
-            
-
-            //});
-
-
-            //DbSeed dbSeed = new DbSeed();
-            //dbSeed.OnModelCreating(modelBuilder);
+      
 
 
             base.OnModelCreating(modelBuilder);

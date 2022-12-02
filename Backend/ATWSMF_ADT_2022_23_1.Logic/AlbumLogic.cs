@@ -34,7 +34,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
 
         public void DeleteAlbum(int id)
         {
-            
+            AlbumRepository.DeleteAlbumById(id);
         }
 
         public IList<Album> GetAllAlbums()
@@ -49,7 +49,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
 
         public void UpdateAlbum(Album album)
         {
-            throw new NotImplementedException();
+            AlbumRepository.UpdateAlbum(album);
         }
     }
 }

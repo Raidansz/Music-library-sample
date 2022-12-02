@@ -46,7 +46,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
 
         public void UpdateSong(Song song)
         {
-            throw new NotImplementedException();
+           SongRepository.UpdateSong(song);
         }
 
         IList<Song> ISongLogic.GetSongsByNameOfArtist(string name)

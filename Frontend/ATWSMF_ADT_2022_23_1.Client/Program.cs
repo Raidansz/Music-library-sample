@@ -1,6 +1,10 @@
-﻿using ATWSMF_ADT_2022_23_1.Models;
+﻿using ATWSMF_ADT_2022_23_1.Data;
+using ATWSMF_ADT_2022_23_1.Logic;
+using ATWSMF_ADT_2022_23_1.Models;
+using ATWSMF_ADT_2022_23_1.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Metadata;
 using System.Threading;
 using System.Xml.Linq;
@@ -80,63 +84,58 @@ namespace ATWSMF_ADT_2022_23_1.Client
             var song = service.GetSingle<Song>("api/Song/3");
             Console.WriteLine(song);
 
-            service.Get<Artist>("api/Artist").ToProcess("GetAll Artists");
+            //service.Get<Artist>("api/Artist").ToProcess("GetAll Artists");
 
 
-            ////TODO: show http put
-            //c.BlogId = 1;
-            //service.Put<Comment>(c, "api/comment/123");
-            //Console.WriteLine(service.GetSingle<Comment>("api/comment/123"));
-
-            //// Delete
-
-            //service.Delete(123, "api/comment");
-
-
-            //Console.WriteLine(service.GetSingle<Comment>("api/comment/123"));
 
             #region ThickClientApproach
-            //BlogContext blogCtx = new BlogContext();
-            //BlogRepository blogRepo = new BlogRepository(blogCtx);
+            //SongContext songContext = new SongContext();
 
-            //CommentRepository commentRepo = new CommentRepository(blogCtx);
-            //CommentLogic commentLogic = new CommentLogic(commentRepo);
+            //SongRepository SongRepo = new SongRepository(songContext);
+            //AlbumRepository AlbumRepo = new AlbumRepository(songContext);
+            //ArtistRepository ArtistRepo = new ArtistRepository(songContext);
 
-            //BlogLogic blogLogic = new BlogLogic(blogRepo, commentRepo);
+            //SongLogic songLogic = new SongLogic(SongRepo);
+            //AlbumLogic albumLogic = new AlbumLogic(AlbumRepo);
+            //ArtistLogic artistLogic = new ArtistLogic(ArtistRepo);
 
 
 
-            //ListAll(blogLogic);
 
-            //ListAll(commentLogic);
+            //ListAll(songLogic);
+            //ListAll(albumLogic);
+            //ListAll(artistLogic);
 
-            //GetCommentNumberPerCategory(blogLogic);
+           
             #endregion
 
         }
         #region ThickClientApproach
-        //private static void ListAll(BlogLogic logic)
+        //private static void ListAll(SongLogic logic)
         //{
-        //    Console.WriteLine("\n:: ALL BLOGS ::\n");
+        //    Console.WriteLine("\n:: ALL Songs ::\n");
 
-        //    logic.GetAllBlogs()
-        //        .ToList()
-        //        .ForEach(x => Console.WriteLine("\t" + x.MainData));
-        //}
-
-        //private static void ListAll(CommentLogic logic)
-        //{
-        //    Console.WriteLine("\n:: ALL COMMENTS ::\n");
-
-        //    logic.GetAllComments()
+        //    logic.GetAllSongs()
         //        .ToList()
         //        .ForEach(x => Console.WriteLine("\t" + x));
         //}
 
-        //private static void GetCommentNumberPerCategory(BlogLogic logic)
+        //private static void ListAll(AlbumLogic logic)
         //{
-        //    logic.GetCommentNumberPerCategory()
-        //        .ToProcess("COMMENT COUNT PER CATEGORY");
+        //    Console.WriteLine("\n:: ALL Albums ::\n");
+
+        //    logic.GetAllAlbums()
+        //        .ToList()
+        //        .ForEach(x => Console.WriteLine("\t" + x));
+        //}
+
+        //private static void ListAll(ArtistLogic logic)
+        //{
+        //    Console.WriteLine("\n:: ALL Artists ::\n");
+
+        //    logic.GetAllArtist()
+        //        .ToList()
+        //        .ForEach(x => Console.WriteLine("\t" + x));
         //}
         #endregion
     }
