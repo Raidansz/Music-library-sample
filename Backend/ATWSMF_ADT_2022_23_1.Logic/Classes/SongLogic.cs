@@ -1,12 +1,13 @@
-﻿using ATWSMF_ADT_2022_23_1.Models;
-using ATWSMF_ADT_2022_23_1.Repository;
+﻿using ATWSMF_ADT_2022_23_1.Logic.Interfaces;
+using ATWSMF_ADT_2022_23_1.Models;
+using ATWSMF_ADT_2022_23_1.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATWSMF_ADT_2022_23_1.Logic
+namespace ATWSMF_ADT_2022_23_1.Logic.Classes
 {
     public class SongLogic : ISongLogic
     {
@@ -26,7 +27,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
         {
             if (newTitle == "")
                 throw new Exception("[ERR] Title can't be empty!");
-            SongRepository.ChangeTitle(id,newTitle);
+            SongRepository.ChangeTitle(id, newTitle);
         }
 
         public void DeleteSong(int id)
@@ -36,17 +37,17 @@ namespace ATWSMF_ADT_2022_23_1.Logic
 
         public IList<Song> GetAllSongs()
         {
-            return this.SongRepository.GetAll().ToList();
+            return SongRepository.GetAll().ToList();
         }
 
         public Song GetOneSong(int id)
         {
-            return this.SongRepository.GetOne(id);
+            return SongRepository.GetOne(id);
         }
 
         public void UpdateSong(Song song)
         {
-           SongRepository.UpdateSong(song);
+            SongRepository.UpdateSong(song);
         }
 
         IList<Song> ISongLogic.GetSongsByNameOfArtist(string name)

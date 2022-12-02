@@ -1,6 +1,8 @@
 using ATWSMF_ADT_2022_23_1.Data;
-using ATWSMF_ADT_2022_23_1.Logic;
-using ATWSMF_ADT_2022_23_1.Repository;
+using ATWSMF_ADT_2022_23_1.Logic.Classes;
+using ATWSMF_ADT_2022_23_1.Logic.Interfaces;
+using ATWSMF_ADT_2022_23_1.Repository.Classes;
+using ATWSMF_ADT_2022_23_1.Repository.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

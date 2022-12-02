@@ -7,11 +7,11 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATWSMF_ADT_2022_23_1.Repository
+namespace ATWSMF_ADT_2022_23_1.Repository.Interfaces
 {
-    public interface IArtistRepository: IRepository<Artist>
+    public interface IArtistRepository : IRepository<Artist>
     {
-        
+
         void AddNewArtist(Artist artist);
         void UpdateArtist(Artist artist);
         void DeleteArtistById(int id);

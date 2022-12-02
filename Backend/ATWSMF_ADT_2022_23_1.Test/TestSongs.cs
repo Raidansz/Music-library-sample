@@ -1,11 +1,13 @@
 using NUnit.Framework;
 using Moq;
 using ATWSMF_ADT_2022_23_1.Logic;
-using ATWSMF_ADT_2022_23_1.Repository;
 using System.Collections.Generic;
 using ATWSMF_ADT_2022_23_1.Models;
 using System.Linq;
 using System;
+using ATWSMF_ADT_2022_23_1.Repository.Interfaces;
+using ATWSMF_ADT_2022_23_1.Logic.Interfaces;
+using ATWSMF_ADT_2022_23_1.Logic.Classes;
 
 namespace ATWSMF_ADT_2022_23_1.Test
 {

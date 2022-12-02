@@ -1,4 +1,4 @@
-﻿using ATWSMF_ADT_2022_23_1.Logic;
+﻿using ATWSMF_ADT_2022_23_1.Logic.Interfaces;
 using ATWSMF_ADT_2022_23_1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

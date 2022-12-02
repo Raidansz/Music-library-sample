@@ -6,12 +6,12 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATWSMF_ADT_2022_23_1.Logic
+namespace ATWSMF_ADT_2022_23_1.Logic.Interfaces
 {
     public interface IArtistLogic
     {
         Artist GetOneArtist(int id);
-        
+
         IList<Artist> GetAllArtist();
         void AddArtist(Artist newArtist);
 
@@ -19,9 +19,9 @@ namespace ATWSMF_ADT_2022_23_1.Logic
 
 
 
-       
-       
-      
+
+
+
         void UpdateArtist(Artist artist);
         void DeleteArtist(int id);
 

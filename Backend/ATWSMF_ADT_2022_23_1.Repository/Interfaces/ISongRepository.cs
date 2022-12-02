@@ -7,22 +7,14 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATWSMF_ADT_2022_23_1.Logic
+namespace ATWSMF_ADT_2022_23_1.Repository.Interfaces
 {
-    public interface ISongLogic
+    public interface ISongRepository : IRepository<Song>
     {
-        Song GetOneSong(int id);
-        void DeleteSong(int id);
-        IList<Song> GetAllSongs();
-        IList<Song> GetSongsByNameOfArtist(string name);
+        void ChangeTitle(int id, string newTitle);
         void AddNewSong(Song song);
-
-       
-        void ChangeSongTitle(int id, string newTitle);
-      
-       
         void UpdateSong(Song song);
-        
-
+        void DeleteSongById(int id);
+        void DeleteSongByTitle(string title);
     }
 }

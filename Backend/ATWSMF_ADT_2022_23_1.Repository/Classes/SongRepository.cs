@@ -1,5 +1,6 @@
 ﻿using ATWSMF_ADT_2022_23_1.Data;
 using ATWSMF_ADT_2022_23_1.Models;
+using ATWSMF_ADT_2022_23_1.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATWSMF_ADT_2022_23_1.Repository
+namespace ATWSMF_ADT_2022_23_1.Repository.Classes
 {
     public class SongRepository : Repository<Song>, ISongRepository
     {
@@ -45,12 +46,12 @@ namespace ATWSMF_ADT_2022_23_1.Repository
 
         public override Song GetOne(int id)
         {
-            return (base.context as SongContext).Songs.FirstOrDefault(c => c.Id == id);
+            return (context as SongContext).Songs.FirstOrDefault(c => c.Id == id);
         }
 
         public override Song GetOneByName(string title)
         {
-            return (base.context as SongContext).Songs.FirstOrDefault(c => c.Name == title);
+            return (context as SongContext).Songs.FirstOrDefault(c => c.Name == title);
         }
 
         public void UpdateSong(Song song)
@@ -58,7 +59,7 @@ namespace ATWSMF_ADT_2022_23_1.Repository
             var toUpdate = GetOne(song.Id);
 
             toUpdate = song;
-           
+
 
             context.SaveChanges();
         }

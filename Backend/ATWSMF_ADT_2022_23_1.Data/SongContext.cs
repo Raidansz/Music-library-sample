@@ -91,7 +91,8 @@ namespace ATWSMF_ADT_2022_23_1.Data
             });
 
 
-      
+            InitialDbSeed dbSeed = new InitialDbSeed();
+            dbSeed.OnModelCreating(modelBuilder);
 
 
             base.OnModelCreating(modelBuilder);

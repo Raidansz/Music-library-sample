@@ -1,12 +1,13 @@
-﻿using ATWSMF_ADT_2022_23_1.Models;
-using ATWSMF_ADT_2022_23_1.Repository;
+﻿using ATWSMF_ADT_2022_23_1.Logic.Interfaces;
+using ATWSMF_ADT_2022_23_1.Models;
+using ATWSMF_ADT_2022_23_1.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATWSMF_ADT_2022_23_1.Logic
+namespace ATWSMF_ADT_2022_23_1.Logic.Classes
 {
     public class AlbumLogic : IAlbumLogic
     {
@@ -44,7 +45,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic
 
         public Album GetOneAlbum(int id)
         {
-            return this.AlbumRepository.GetOne(id);
+            return AlbumRepository.GetOne(id);
         }
 
         public void UpdateAlbum(Album album)
