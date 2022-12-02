@@ -16,6 +16,8 @@ namespace ATWSMF_ADT_2022_23_1.Endpoint.Controllers
             ArtistLogic = artistLogic;
         }
 
+        // GET
+        #region
         // GET: api/Artist
         [HttpGet]
         public IEnumerable<Artist> Get()
@@ -30,32 +32,44 @@ namespace ATWSMF_ADT_2022_23_1.Endpoint.Controllers
             return this.ArtistLogic.GetOneArtist(id);
         }
 
+        #endregion
+
+
+        // POST
+        #region
         // POST: api/Artist
         [HttpPost]
-        //TODO ADD SONG
-        public void Post([FromBody] Artist value)
+
+        public void Post([FromBody] Artist artist)
         {
-            this.ArtistLogic.AddArtist(value);
+            this.ArtistLogic.AddArtist(artist);
         }
+        #endregion
 
-        //TODO
-        // PUT: api/Comment/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] Song value)
-        //{
+        // PUT
+        #region
 
-        //    this.SongLogic.UpdateCommentContentById(id, value.Content);
-        //}
+        // PUT: api/Artist/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
 
+            var artist = this.ArtistLogic.GetOneArtist(id);
+            artist.Name = value;
+            this.ArtistLogic.UpdateArtist(artist);
 
-        //TODO
+        }
+        #endregion
 
-        // DELETE: api/Comment/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    this.ArtistLogic.Dele
-        //}
+        // DELETE
+        #region
+        // DELETE: api/Artist/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            this.ArtistLogic.DeleteArtist(id);
+        }
+        #endregion
     }
 
 }

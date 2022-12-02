@@ -58,12 +58,12 @@ namespace ATWSMF_ADT_2022_23_1.Client
             Thread.Sleep(5000);
             RestService service = new RestService("http://localhost:4671");
 
-          
-            
+
+
             //// Post artists
-            //service.Post<Artist>(Billie, "api/Artist");
-            //service.Post<Artist>(Ava, "api/Artist");
-            //service.Post<Artist>(Taylor, "api/Artist");
+            service.Post<Artist>(Billie, "api/Artist");
+            service.Post<Artist>(Ava, "api/Artist");
+            service.Post<Artist>(Taylor, "api/Artist");
             // Post songs
             service.Post<Song>(T1, "api/Song");
             service.Post<Song>(T2, "api/Song");
@@ -72,15 +72,15 @@ namespace ATWSMF_ADT_2022_23_1.Client
             service.Post<Song>(T6, "api/Song");
             service.Post<Song>(T7, "api/Song");
             //// Post albums
-            //service.Post<Album>(A1, "api/Album");
-            //service.Post<Album>(A2, "api/Album");
-            //service.Post<Album>(A3, "api/Album");
-            //service.Post<Album>(A4, "api/Album");
+            service.Post<Album>(A1, "api/Album");
+            service.Post<Album>(A2, "api/Album");
+            service.Post<Album>(A3, "api/Album");
+            service.Post<Album>(A4, "api/Album");
 
             var song = service.GetSingle<Song>("api/Song/3");
             Console.WriteLine(song);
 
-            //service.Get<Artist>("api/Artist").ToProcess("GetAll Artists");
+            service.Get<Artist>("api/Artist").ToProcess("GetAll Artists");
 
 
             ////TODO: show http put

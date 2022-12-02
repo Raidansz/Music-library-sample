@@ -38,5 +38,15 @@ namespace ATWSMF_ADT_2022_23_1.Logic
         {
            return ArtistRepository.GetOneByName(name);
         }
+
+        public void UpdateArtist(Artist artist)
+        {
+             ArtistRepository.UpdateArtist(artist);
+        }
+
+        public void DeleteArtist(int id)
+        {
+            ArtistRepository.DeleteArtistById(id);
+        }
     }
 }

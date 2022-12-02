@@ -17,6 +17,11 @@ namespace ATWSMF_ADT_2022_23_1.Endpoint.Controllers
             AlbumLogic = albumLogic;
         }
 
+
+
+
+        // GET
+        #region
         // GET: api/Album
         [HttpGet]
         public IEnumerable<Album> Get()
@@ -31,32 +36,44 @@ namespace ATWSMF_ADT_2022_23_1.Endpoint.Controllers
             return this.AlbumLogic.GetOneAlbum(id);
         }
 
-        // POST: api/Comment
-        // [HttpPost]
-        //TODO 
-        //public void Post([FromBody] Album value)
-        //{
-        //    this.AlbumLogic.add
-        //}
-
-        //TODO
-        // PUT: api/Comment/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] Song value)
-        //{
-
-        //    this.SongLogic.UpdateCommentContentById(id, value.Content);
-        //}
+        #endregion
 
 
-        //TODO
+        // POST
+        #region
+        // POST: api/Album
+        [HttpPost]
 
-       // DELETE: api/Comment/5
-       // [HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //    this.AlbumLogic.Delete
-        //}
+        public void Post([FromBody] Album album)
+        {
+            this.AlbumLogic.AddNewAlbum(album);
+        }
+        #endregion
+
+        // PUT
+        #region
+
+        // PUT: api/Album/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+
+            var album = this.AlbumLogic.GetOneAlbum(id);
+            album.Name = value;
+            this.AlbumLogic.UpdateAlbum(album);
+
+        }
+        #endregion
+
+        // DELETE
+        #region
+        // DELETE: api/Album/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            this.AlbumLogic.DeleteAlbum(id);
+        }
+        #endregion
     }
 
 }
