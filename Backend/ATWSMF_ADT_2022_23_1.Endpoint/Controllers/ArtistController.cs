@@ -22,7 +22,7 @@ namespace ATWSMF_ADT_2022_23_1.Endpoint.Controllers
         [HttpGet]
         public IEnumerable<Artist> Get()
         {
-            return this.ArtistLogic.GetAllArtist();
+            return this.ArtistLogic.GetAllArtists();
         }
 
         // GET: api/Artist/5

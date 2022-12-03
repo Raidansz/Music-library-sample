@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ATWSMF_ADT_2022_23_1.Logic.Classes
 {
-    public class ArtistLogic : IArtistLogic
+    public class ArtistLogic : IArtistLogic, ILogic
     {
 
         IArtistRepository ArtistRepository;
@@ -20,7 +20,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic.Classes
         }
 
 
-        public IList<Artist> GetAllArtist()
+        public IList<Artist> GetAllArtists()
         {
             return ArtistRepository.GetAll().ToList();
         }

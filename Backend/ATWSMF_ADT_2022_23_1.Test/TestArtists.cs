@@ -36,7 +36,7 @@ namespace ATWSMF_ADT_2022_23_1.Test
         [Test]
         public void CallingGetAll_ShouldReturn_Artists()
         {
-            var artist = ArtistLogic.GetAllArtist();
+            var artist = ArtistLogic.GetAllArtists();
             // Assert
 
             mock.Verify(m => m.GetAll(), Times.AtLeast(1));

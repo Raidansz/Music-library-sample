@@ -12,7 +12,7 @@ namespace ATWSMF_ADT_2022_23_1.Logic.Interfaces
     {
         Artist GetOneArtist(int id);
 
-        IList<Artist> GetAllArtist();
+        IList<Artist> GetAllArtists();
         void AddArtist(Artist newArtist);
 
         Artist GetArtistByName(string name);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ATWSMF_ADT_2022_23_1.Logic.Classes
 {
-    public class SongLogic : ISongLogic
+    public class SongLogic : ISongLogic, ILogic
     {
         ISongRepository SongRepository;
 

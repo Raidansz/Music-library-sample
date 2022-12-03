@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ATWSMF_ADT_2022_23_1.Logic.Classes
 {
-    public class AlbumLogic : IAlbumLogic
+    public class AlbumLogic : IAlbumLogic,ILogic
     {
 
         IAlbumRepository AlbumRepository;
