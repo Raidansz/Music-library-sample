@@ -15,5 +15,5 @@ Milestones of the project work:
 
 11th week, Wednesday 23:59:59 --- DONE
 
-12th week, Wednesday 23:59:59
+12th week, Wednesday 23:59:59 --- DONE
 
