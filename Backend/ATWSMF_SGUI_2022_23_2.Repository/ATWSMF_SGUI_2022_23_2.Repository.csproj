@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\ATWSMF_SGUI_2022_23_2.Models\ATWSMF_SGUI_2022_23_2.Models.csproj" />
+    <ProjectReference Include="..\ATWSMF_SGUI_2022_23_2.Data\ATWSMF_SGUI_2022_23_2.Data.csproj" />
+  </ItemGroup>
+
+</Project>

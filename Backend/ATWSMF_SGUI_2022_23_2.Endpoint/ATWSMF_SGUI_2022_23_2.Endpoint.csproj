@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <StartupObject>ATWSMF_SGUI_2022_23_2.Endpoint.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\ATWSMF_SGUI_2022_23_2.Models\ATWSMF_SGUI_2022_23_2.Models.csproj" />
+    <ProjectReference Include="..\ATWSMF_SGUI_2022_23_2.Data\ATWSMF_SGUI_2022_23_2.Data.csproj" />
+    <ProjectReference Include="..\ATWSMF_SGUI_2022_23_2.Logic\ATWSMF_SGUI_2022_23_2.Logic.csproj" />
+    <ProjectReference Include="..\ATWSMF_SGUI_2022_23_2.Repository\ATWSMF_SGUI_2022_23_2.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
