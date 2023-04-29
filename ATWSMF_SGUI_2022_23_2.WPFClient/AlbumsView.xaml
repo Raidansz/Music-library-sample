@@ -15,7 +15,7 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*" ></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Songs}" SelectedItem="{Binding Selectedsong}">
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Albums}" SelectedItem="{Binding SelectedAlbum}">
             <ListBox.ItemTemplate >
                 <DataTemplate>
                     <Label Content="{Binding ElementName}"></Label>
@@ -26,9 +26,9 @@
         <StackPanel Grid.Column="1">
             <Label Content="NAME:"></Label>
             <TextBox Height="30" Margin="20" TextWrapping="Wrap" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <Button Height="35" Margin="10" Content="Add" Command="{Binding AddSongCommand}"></Button>
-            <Button Height="35" Margin="10" Content="Update"  Command="{Binding UpdateSongCommand}" ></Button>
-            <Button Height="35" Margin="10" Content="Delete"  Command="{Binding DeleteSongCommand}"></Button>
+            <Button Height="35" Margin="10" Content="Add" Command="{Binding AddAlbumCommand}"></Button>
+            <Button Height="35" Margin="10" Content="Update"  Command="{Binding UpdateAlbumCommand}" ></Button>
+            <Button Height="35" Margin="10" Content="Delete"  Command="{Binding DeleteAlbumCommand}"></Button>
         </StackPanel>
     </Grid>
 </Window>
