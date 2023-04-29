@@ -12,8 +12,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-
-
 namespace ATWSMF_SGUI_2022_23_2.WPFClient
 {
     class SongsViewModel : ObservableRecipient

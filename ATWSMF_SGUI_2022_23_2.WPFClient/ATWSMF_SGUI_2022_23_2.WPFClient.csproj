@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Shared\ATWSMF_SGUI_2022_23_2.Models\ATWSMF_SGUI_2022_23_2.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>
