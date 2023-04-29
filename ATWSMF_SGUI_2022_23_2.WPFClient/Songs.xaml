@@ -6,7 +6,28 @@
         xmlns:local="clr-namespace:ATWSMF_SGUI_2022_23_2.WPFClient"
         mc:Ignorable="d"
         Title="Songs" Height="450" Width="800">
+    <Window.DataContext>
+        <local:SongsViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*" ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Songs}" SelectedItem="{Binding Selectedsong}">
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <Label Content="{Binding ElementName}"></Label>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Column="1">
+            <Label Content="NAME:"></Label>
+            <TextBox Height="30" Margin="20" TextWrapping="Wrap" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Height="35" Margin="10" Content="Add" Command="{Binding AddSongCommand}"></Button>
+            <Button Height="35" Margin="10" Content="Update"  Command="{Binding UpdateSongCommand}" ></Button>
+            <Button Height="35" Margin="10" Content="Delete"  Command="{Binding DeleteSongCommand}"></Button>
+        </StackPanel>
     </Grid>
 </Window>
