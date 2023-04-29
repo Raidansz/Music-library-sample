@@ -1,20 +1,20 @@
-﻿<Window x:Class="ATWSMF_SGUI_2022_23_2.WPFClient.Songs"
+﻿<Window x:Class="ATWSMF_SGUI_2022_23_2.WPFClient.ArtistsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ATWSMF_SGUI_2022_23_2.WPFClient"
         mc:Ignorable="d"
-        Title="Songs" Height="450" Width="800">
+        Title="ArtistsView" Height="450" Width="800">
     <Window.DataContext>
-        <local:SongsViewModel/>
+        <local:ArtistsViewModel/>
     </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*" ></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Songs}" SelectedItem="{Binding Selectedsong}">
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Artists}" SelectedItem="{Binding SelectedArtist}">
             <ListBox.ItemTemplate >
                 <DataTemplate>
                     <Label Content="{Binding ElementName}"></Label>
@@ -25,9 +25,10 @@
         <StackPanel Grid.Column="1">
             <Label Content="NAME:"></Label>
             <TextBox Height="30" Margin="20" TextWrapping="Wrap" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <Button Height="35" Margin="10" Content="Add" Command="{Binding AddSongCommand}"></Button>
-            <Button Height="35" Margin="10" Content="Update"  Command="{Binding UpdateSongCommand}" ></Button>
-            <Button Height="35" Margin="10" Content="Remove"  Command="{Binding DeleteSongCommand}"></Button>
+            <Button Height="35" Margin="10" Content="Add" Command="{Binding AddArtistCommand}"></Button>
+            <Button Height="35" Margin="10" Content="Update"  Command="{Binding UpdateArtistCommand}" ></Button>
+            <Button Height="35" Margin="10" Content="Remove"  Command="{Binding DeleteArtistCommand}"></Button>
         </StackPanel>
     </Grid>
 </Window>
+
