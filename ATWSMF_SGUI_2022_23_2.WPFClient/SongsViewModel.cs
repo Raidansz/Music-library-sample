@@ -16,7 +16,7 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 {
     class SongsViewModel : ObservableRecipient
     {
-        private RestService restService;
+        private ApiClient _apiClient = new ApiClient();
         public ObservableCollection<Song> Songs { get; } = new ObservableCollection<Song>();
         private Song selectedSong;
 
@@ -52,35 +52,82 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
         public ICommand UpdateSongCommand { get; set; }
         public ICommand DeleteSongCommand { get; set; }
 
-        public SongsViewModel(RestService restService)
+        public SongsViewModel()
         {
-            this.restService = restService;
-            Songs.Add(new Song { Name = "test " });
-            AddSongCommand = new RelayCommand(async () => { await restService.Post(new Song { Name = Name }, "Song"); DownloadSongs(); }, () => !string.IsNullOrEmpty(Name));
+            DownloadSongs();
+
+
+       
+
+            var n = new Song { Name = Name };
+            AddSongCommand = new RelayCommand(
+                 () => 
+                { _apiClient.PostAsync(n, "http://localhost:4671/api/Song")
+                    .ContinueWith((task) =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            Songs.Add(n);
+                        });
+                    }); ; DownloadSongs(); }
+                
+                , () => !string.IsNullOrEmpty(Name));
+
+
             UpdateSongCommand = new RelayCommand(() =>
             {
+
                 Selectedsong.Name = Name;
-                restService.Put(Selectedsong, "Song");
+                var temp = Selectedsong;
+                _apiClient.PutAsync(Selectedsong, "http://localhost:4671/api/Song")
+                 .ContinueWith((task) =>
+                 {
+                     Application.Current.Dispatcher.Invoke(() =>
+                     {
+                       
+                         Songs.Remove(Selectedsong);
+                         Songs.Add(temp);
+                     });
+                 }); ;
             }, () => !string.IsNullOrEmpty(Name));
+
+
+
             DeleteSongCommand = new RelayCommand(() =>
             {
-                restService.Delete(Selectedsong.Id, "Song");
-                Songs.Remove(Selectedsong);
+                _apiClient.DeleteAsync(Selectedsong.Id, "http://localhost:4671/api/Song")
+                .ContinueWith((task) =>
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Songs.Remove(Selectedsong);
+                    });
+                });
+               
             }, () => Selectedsong != null);
 
-            DownloadSongs();
+         
         }
         private void DownloadSongs()
         {
             Songs.Clear();
-            foreach (var song in restService.Get<Song>("api/Song"))
-            {
-                Songs.Add(song);
-            }
-        }
-        public SongsViewModel() : this(Ioc.Default.GetService<RestService>())
-        {
+            _apiClient
+                .GetAsync<List<Song>>("http://localhost:4671/api/Song")
+                .ContinueWith((songs) =>
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        songs.Result.ForEach(song =>
+                        {
+                            Songs.Add(song);
+                        });
+                       
+                    });
+                });
 
+
+           
         }
+        
     }
 }

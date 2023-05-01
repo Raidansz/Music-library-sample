@@ -18,7 +18,7 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 {
     class AlbumsViewModel : ObservableRecipient
     {
-        private RestService restService;
+        
         public ObservableCollection<Album> Albums { get; } = new ObservableCollection<Album>();
         private Album selectedAlbum;
 
@@ -54,35 +54,32 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
         public ICommand UpdateAlbumCommand { get; set; }
         public ICommand DeleteAlbumCommand { get; set; }
 
-        public AlbumsViewModel(RestService restService)
+        public AlbumsViewModel()
         {
-            this.restService = restService;
-            Albums.Add(new Album { Name = "test " });
-            AddAlbumCommand = new RelayCommand(async () => { await restService.Post(new Album { Name = Name }, "Album"); DownloadAlbums(); }, () => !string.IsNullOrEmpty(Name));
-            UpdateAlbumCommand = new RelayCommand(() =>
-            {
-                SelectedAlbum.Name = Name;
-                restService.Put(SelectedAlbum, "Song");
-            }, () => !string.IsNullOrEmpty(Name));
-            DeleteAlbumCommand = new RelayCommand(() =>
-            {
-                restService.Delete(SelectedAlbum.Id, "Song");
-                Albums.Remove(SelectedAlbum);
-            }, () => SelectedAlbum != null);
+           
+            //Albums.Add(new Album { Name = "test " });
+            //AddAlbumCommand = new RelayCommand(async () => { await restService.Post(new Album { Name = Name }, "Album"); DownloadAlbums(); }, () => !string.IsNullOrEmpty(Name));
+            //UpdateAlbumCommand = new RelayCommand(() =>
+            //{
+            //    SelectedAlbum.Name = Name;
+            //    restService.Put(SelectedAlbum, "Song");
+            //}, () => !string.IsNullOrEmpty(Name));
+            //DeleteAlbumCommand = new RelayCommand(() =>
+            //{
+            //    restService.Delete(SelectedAlbum.Id, "Song");
+            //    Albums.Remove(SelectedAlbum);
+            //}, () => SelectedAlbum != null);
 
-            DownloadAlbums();
+            //DownloadAlbums();
         }
         private void DownloadAlbums()
         {
-            Albums.Clear();
-            foreach (var album in restService.Get<Album>("api/Song"))
-            {
-                Albums.Add(album);
-            }
+            //Albums.Clear();
+            //foreach (var album in restService.Get<Album>("api/Song"))
+            //{
+            //    Albums.Add(album);
+            //}
         }
-        public AlbumsViewModel() : this(Ioc.Default.GetService<RestService>())
-        {
-
-        }
+       
     }
 }

@@ -17,7 +17,7 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 {
     class ArtistsViewModel : ObservableRecipient
     {
-        private RestService restService;
+       
         public ObservableCollection<Artist> Artists { get; } = new ObservableCollection<Artist>();
         private Artist selectedArtist;
 
@@ -53,35 +53,32 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
         public ICommand UpdateArtistCommand { get; set; }
         public ICommand DeleteArtistCommand { get; set; }
 
-        public ArtistsViewModel(RestService restService)
+        public ArtistsViewModel()
         {
-            this.restService = restService;
-            Artists.Add(new Artist { Name = "test " });
-            AddArtistCommand = new RelayCommand(async () => { await restService.Post(new Artist { Name = Name }, "Artist"); DownloadArtist(); }, () => !string.IsNullOrEmpty(Name));
-            UpdateArtistCommand = new RelayCommand(() =>
-            {
-                SelectedArtist.Name = Name;
-                restService.Put(SelectedArtist, "Artist");
-            }, () => !string.IsNullOrEmpty(Name));
-            DeleteArtistCommand = new RelayCommand(() =>
-            {
-                restService.Delete(SelectedArtist.Id, "Artist");
-                Artists.Remove(SelectedArtist);
-            }, () => SelectedArtist != null);
+            //this.restService = restService;
+            //Artists.Add(new Artist { Name = "test " });
+            //AddArtistCommand = new RelayCommand(async () => { await restService.Post(new Artist { Name = Name }, "Artist"); DownloadArtist(); }, () => !string.IsNullOrEmpty(Name));
+            //UpdateArtistCommand = new RelayCommand(() =>
+            //{
+            //    SelectedArtist.Name = Name;
+            //    restService.Put(SelectedArtist, "Artist");
+            //}, () => !string.IsNullOrEmpty(Name));
+            //DeleteArtistCommand = new RelayCommand(() =>
+            //{
+            //    restService.Delete(SelectedArtist.Id, "Artist");
+            //    Artists.Remove(SelectedArtist);
+            //}, () => SelectedArtist != null);
 
-            DownloadArtist();
+            //DownloadArtist();
         }
         private void DownloadArtist()
         {
-            Artists.Clear();
-            foreach (var artist in restService.Get<Artist>("api/Artist"))
-            {
-                Artists.Add(artist);
-            }
+            //Artists.Clear();
+            //foreach (var artist in restService.Get<Artist>("api/Artist"))
+            //{
+            //    Artists.Add(artist);
+            //}
         }
-        public ArtistsViewModel() : this(Ioc.Default.GetService<RestService>())
-        {
-
-        }
+        
     }
 }

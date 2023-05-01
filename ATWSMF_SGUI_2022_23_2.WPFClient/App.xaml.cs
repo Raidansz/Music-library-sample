@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ATWSMF_SGUI_2022_23_2.WPFClient.Services;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +16,9 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+           
+        }
     }
 }
