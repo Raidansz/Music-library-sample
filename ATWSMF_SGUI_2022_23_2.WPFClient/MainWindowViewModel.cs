@@ -13,6 +13,8 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
     internal class MainWindowViewModel
     {
         public ICommand Songs { get; set; }
+        public ICommand Artists { get; set; }
+        public ICommand Albums { get; set; }
 
 
 
@@ -23,6 +25,16 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
             Songs = new RelayCommand(() =>
             {
                 Songs window = new Songs();
+                window.Show();
+            });
+            Artists = new RelayCommand(() =>
+            {
+                ArtistsView window = new ArtistsView();
+                window.Show();
+            });
+            Albums = new RelayCommand(() =>
+            {
+                AlbumsView window = new AlbumsView();
                 window.Show();
             });
         }

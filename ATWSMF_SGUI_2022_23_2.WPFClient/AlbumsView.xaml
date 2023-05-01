@@ -15,10 +15,10 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*" ></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding Albums}" SelectedItem="{Binding SelectedAlbum}">
+        <ListBox ItemsSource="{Binding Albums}" SelectedItem="{Binding SelectedAlbum}">
             <ListBox.ItemTemplate >
                 <DataTemplate>
-                    <Label Content="{Binding ElementName}"></Label>
+                    <Label Content="{Binding Name}"></Label>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

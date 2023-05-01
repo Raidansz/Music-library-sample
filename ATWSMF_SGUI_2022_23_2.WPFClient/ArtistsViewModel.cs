@@ -17,7 +17,7 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 {
     class ArtistsViewModel : ObservableRecipient
     {
-       
+        private ApiClient _apiClient = new ApiClient();
         public ObservableCollection<Artist> Artists { get; } = new ObservableCollection<Artist>();
         private Artist selectedArtist;
 
@@ -44,7 +44,7 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
             {
                 SetProperty(ref name, value);
                 (AddArtistCommand as RelayCommand).NotifyCanExecuteChanged();
-                (DeleteArtistCommand as RelayCommand).NotifyCanExecuteChanged();
+                (UpdateArtistCommand as RelayCommand).NotifyCanExecuteChanged();
             }
         }
 
@@ -55,30 +55,82 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 
         public ArtistsViewModel()
         {
-            //this.restService = restService;
-            //Artists.Add(new Artist { Name = "test " });
-            //AddArtistCommand = new RelayCommand(async () => { await restService.Post(new Artist { Name = Name }, "Artist"); DownloadArtist(); }, () => !string.IsNullOrEmpty(Name));
-            //UpdateArtistCommand = new RelayCommand(() =>
-            //{
-            //    SelectedArtist.Name = Name;
-            //    restService.Put(SelectedArtist, "Artist");
-            //}, () => !string.IsNullOrEmpty(Name));
-            //DeleteArtistCommand = new RelayCommand(() =>
-            //{
-            //    restService.Delete(SelectedArtist.Id, "Artist");
-            //    Artists.Remove(SelectedArtist);
-            //}, () => SelectedArtist != null);
+            DownloadArtists();
 
-            //DownloadArtist();
+
+
+
+            var n = new Artist { Name = Name };
+            AddArtistCommand = new RelayCommand(
+                 () =>
+                 {
+                     _apiClient.PostAsync(n, "http://localhost:4671/api/Artist")
+                     .ContinueWith((Action<Task>)((task) =>
+                     {
+                         Application.Current.Dispatcher.Invoke((Action)(() =>
+                         {
+                             this.Artists.Add(n);
+                         }));
+                     })); ; DownloadArtists();
+                 }
+
+                , () => !string.IsNullOrEmpty(Name));
+
+
+            UpdateArtistCommand = new RelayCommand(() =>
+            {
+
+                SelectedArtist.Name = Name;
+                var temp = SelectedArtist;
+                _apiClient.PutAsync(SelectedArtist, "http://localhost:4671/api/Artist")
+                 .ContinueWith((Action<Task>)((task) =>
+                 {
+                     Application.Current.Dispatcher.Invoke((Action)(() =>
+                     {
+
+                         this.Artists.Remove(SelectedArtist);
+                         this.Artists.Add(temp);
+                     }));
+                 })); ;
+            }, () => !string.IsNullOrEmpty(Name));
+
+
+
+            DeleteArtistCommand = new RelayCommand(() =>
+            {
+                _apiClient.DeleteAsync(SelectedArtist.Id, "http://localhost:4671/api/Artist")
+                .ContinueWith((Action<Task>)((task) =>
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        this.Artists.Remove(SelectedArtist);
+                    }));
+                }));
+
+            }, () => SelectedArtist != null);
+
+
         }
-        private void DownloadArtist()
+        private void DownloadArtists()
         {
-            //Artists.Clear();
-            //foreach (var artist in restService.Get<Artist>("api/Artist"))
-            //{
-            //    Artists.Add(artist);
-            //}
+            Artists.Clear();
+            _apiClient
+                .GetAsync<List<Artist>>("http://localhost:4671/api/Artist")
+                .ContinueWith((Action<Task<List<Artist>>>)((Artists) =>
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        Artists.Result.ForEach((Action<Artist>)(a =>
+                        {
+                            this.Artists.Add(a);
+                        }));
+
+                    }));
+                }));
+
+
+
         }
-        
+
     }
 }
