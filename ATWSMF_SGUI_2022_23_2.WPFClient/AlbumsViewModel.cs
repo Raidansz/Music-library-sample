@@ -14,81 +14,6 @@ using System.Windows;
 using System.Windows.Input;
 
 
-//namespace ATWSMF_SGUI_2022_23_2.WPFClient
-//{
-//    class AlbumsViewModel : ObservableRecipient
-//    {
-
-//        public ObservableCollection<Album> Albums { get; } = new ObservableCollection<Album>();
-//        private Album selectedAlbum;
-
-//        public Album SelectedAlbum
-//        {
-//            get { return selectedAlbum; }
-//            set
-//            {
-//                SetProperty(ref selectedAlbum, value);
-//                if (selectedAlbum != null)
-//                {
-//                    Name = selectedAlbum.Name;
-//                }
-//                (DeleteAlbumCommand as RelayCommand).NotifyCanExecuteChanged();
-//            }
-//        }
-
-//        private string name;
-
-//        public string Name
-//        {
-//            get { return name; }
-//            set
-//            {
-//                SetProperty(ref name, value);
-//                (AddAlbumCommand as RelayCommand).NotifyCanExecuteChanged();
-//                (DeleteAlbumCommand as RelayCommand).NotifyCanExecuteChanged();
-//            }
-//        }
-
-
-//        public ICommand AddAlbumCommand { get; set; }
-//        public ICommand UpdateAlbumCommand { get; set; }
-//        public ICommand DeleteAlbumCommand { get; set; }
-
-//        public AlbumsViewModel()
-//        {
-
-//            //Albums.Add(new Album { Name = "test " });
-//            //AddAlbumCommand = new RelayCommand(async () => { await restService.Post(new Album { Name = Name }, "Album"); DownloadAlbums(); }, () => !string.IsNullOrEmpty(Name));
-//            //UpdateAlbumCommand = new RelayCommand(() =>
-//            //{
-//            //    SelectedAlbum.Name = Name;
-//            //    restService.Put(SelectedAlbum, "Song");
-//            //}, () => !string.IsNullOrEmpty(Name));
-//            //DeleteAlbumCommand = new RelayCommand(() =>
-//            //{
-//            //    restService.Delete(SelectedAlbum.Id, "Song");
-//            //    Albums.Remove(SelectedAlbum);
-//            //}, () => SelectedAlbum != null);
-
-//            //DownloadAlbums();
-//        }
-//        private void DownloadAlbums()
-//        {
-//            //Albums.Clear();
-//            //foreach (var album in restService.Get<Album>("api/Song"))
-//            //{
-//            //    Albums.Add(album);
-//            //}
-//        }
-
-//    }
-//}
-
-
-
-
-
-
 namespace ATWSMF_SGUI_2022_23_2.WPFClient
 {
     class AlbumsViewModel: ObservableRecipient
@@ -136,10 +61,11 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 
 
 
-            var n = new Album { Name = Name };
+           
             AddAlbumCommand = new RelayCommand(
                  () =>
                  {
+                     var n = new Album { Name = Name };
                      _apiClient.PostAsync(n, "http://localhost:4671/api/Album")
                      .ContinueWith((Action<Task>)((task) =>
                      {
@@ -147,7 +73,7 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
                          {
                              this.Albums.Add(n);
                          }));
-                     })); ; DownloadAlbums();
+                     })); ; 
                  }
 
                 , () => !string.IsNullOrEmpty(Name));

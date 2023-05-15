@@ -60,10 +60,11 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 
 
 
-            var n = new Artist { Name = Name };
+            
             AddArtistCommand = new RelayCommand(
                  () =>
                  {
+                     var n = new Artist { Name = Name };
                      _apiClient.PostAsync(n, "http://localhost:4671/api/Artist")
                      .ContinueWith((Action<Task>)((task) =>
                      {
@@ -71,7 +72,8 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
                          {
                              this.Artists.Add(n);
                          }));
-                     })); ; DownloadArtists();
+                     })); ;
+                     
                  }
 
                 , () => !string.IsNullOrEmpty(Name));

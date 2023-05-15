@@ -59,17 +59,19 @@ namespace ATWSMF_SGUI_2022_23_2.WPFClient
 
        
 
-            var n = new Song { Name = Name };
+          
             AddSongCommand = new RelayCommand(
-                 () => 
-                { _apiClient.PostAsync(n, "http://localhost:4671/api/Song")
+                 () =>
+                 {
+                     var n = new Song { Name = Name };
+                     _apiClient.PostAsync(n, "http://localhost:4671/api/Song")
                     .ContinueWith((task) =>
                     {
                         Application.Current.Dispatcher.Invoke(() =>
                         {
                             Songs.Add(n);
                         });
-                    }); ; DownloadSongs(); }
+                    }); }
                 
                 , () => !string.IsNullOrEmpty(Name));
 
