@@ -1,0 +1,300 @@
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <title>Songs Database - CRUD Web App</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            margin-bottom: 20px;
+        }
+
+        .crud-selection {
+            text-align: center;
+        }
+
+        .crud-methods {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .method {
+            width: 24%;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .method {
+            padding: 50px;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Songs Database - CRUD Web App</h1>
+
+    <div class="container">
+        <div class="crud-selection">
+            <label for="objectSelect">Please, select which one you would like to interact with:</label>
+            <select id="objectSelect">
+                <option value="">Choose Object</option>
+                <option value="songs">Songs</option>
+                <option value="albums">Albums</option>
+                <option value="artists">Artists</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="crudMethodsContainer" class="container" style="display: none;">
+        <div class="crud-methods">
+            <div id="createMethod" class="method">
+                <h3>Create</h3>
+                <form id="crudForm">
+                    <input type="text" id="nameInput" placeholder="Enter Name" required>
+
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+
+            <div id="readMethod" class="method">
+                <h3>Read</h3>
+                <table id="resourcesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="updateMethod" class="method">
+                <h3>Update</h3>-->
+<!-- Update method UI elements go here -->
+<!--</div>
+
+<div id="deleteMethod" class="method">
+    <h3>Delete</h3>-->
+<!-- Delete method UI elements go here -->
+<!--</div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code for handling object selection and CRUD method display
+
+        // Get the necessary DOM elements
+        const objectSelect = document.getElementById('objectSelect');
+        const crudMethodsContainer = document.getElementById('crudMethodsContainer');
+        const createMethod = document.getElementById('createMethod');
+        const readMethod = document.getElementById('readMethod');
+        const updateMethod = document.getElementById('updateMethod');
+        const deleteMethod = document.getElementById('deleteMethod');
+
+        // Add an event listener to the objectSelect dropdown
+        objectSelect.addEventListener('change', function () {
+            const selectedObject = objectSelect.value;
+
+            // Reset the displayed CRUD methods
+            createMethod.style.display = 'none';
+            readMethod.style.display = 'none';
+            updateMethod.style.display = 'none';
+            deleteMethod.style.display = 'none';
+
+            // Check the selected object and display the appropriate CRUD methods
+            if (selectedObject === 'songs' || selectedObject === 'albums' || selectedObject === 'artists') {
+                crudMethodsContainer.style.display = 'flex';
+                if (selectedObject === 'songs') {
+                    createMethod.style.display = 'block';
+                    readMethod.style.display = 'block';
+                    // Add the necessary UI elements and logic for update and delete methods for songs
+                    updateMethod.innerHTML = '<h3>Update</h3><p>Add your update method UI elements here for songs</p>';
+                    deleteMethod.innerHTML = '<h3>Delete</h3><p>Add your delete method UI elements here for songs</p>';
+                    updateMethod.style.display = 'block';
+                    deleteMethod.style.display = 'block';
+                } else if (selectedObject === 'albums') {
+                    createMethod.style.display = 'block';
+                    readMethod.style.display = 'block';
+                    // Add the necessary UI elements and logic for update and delete methods for albums
+                    updateMethod.innerHTML = '<h3>Update</h3><p>Add your update method UI elements here for albums</p>';
+                    deleteMethod.innerHTML = '<h3>Delete</h3><p>Add your delete method UI elements here for albums</p>';
+                    updateMethod.style.display = 'block';
+                    deleteMethod.style.display = 'block';
+                } else if (selectedObject === 'artists') {
+                    createMethod.style.display = 'block';
+                    readMethod.style.display = 'block';
+                    // Add the necessary UI elements and logic for update and delete methods for artists
+                    updateMethod.innerHTML = '<h3>Update</h3><p>Add your update method UI elements here for artists</p>';
+                    deleteMethod.innerHTML = '<h3>Delete</h3><p>Add your delete method UI elements here for artists</p>';
+                    updateMethod.style.display = 'block';
+                    deleteMethod.style.display = 'block';
+                }
+            } else {
+                crudMethodsContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Songs Database - CRUD Web App</title>
+
+    <style>
+        /* Your CSS styles here */
+    </style>
+
+</head>
+<body>
+    <h1>Songs Database - CRUD Web App</h1>
+
+    <div class="container">
+        <div class="crud-selection">
+            <label for="objectSelect">Please, select which one you would like to interact with:</label>
+            <select id="objectSelect">
+                <option value="">Choose Object</option>
+                <option value="songs">Songs</option>
+                <option value="albums">Albums</option>
+                <option value="artists">Artists</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="crudMethodsContainer" class="container" style="display: none;">
+        <div class="crud-methods">
+            <div id="createMethod" class="method">
+                <h3>Create</h3>
+                <form id="crudForm">
+                    <input type="text" id="nameInput" placeholder="Enter Name" required>
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+
+            <div id="readMethod" class="method">
+                <h3>Read</h3>
+                <table id="resourcesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div id="updateMethod" class="method">
+                <h3>Update</h3>
+                <p>Add your update method UI elements here for songs</p>
+            </div>
+
+            <div id="deleteMethod" class="method">
+                <h3>Delete</h3>
+                <p>Add your delete method UI elements here for songs</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your existing JavaScript code for handling object selection and CRUD method display
+
+        // Get the necessary DOM elements
+        const objectSelect = document.getElementById('objectSelect');
+        const crudMethodsContainer = document.getElementById('crudMethodsContainer');
+        const createMethod = document.getElementById('createMethod');
+        const readMethod = document.getElementById('readMethod');
+        const updateMethod = document.getElementById('updateMethod');
+        const deleteMethod = document.getElementById('deleteMethod');
+
+        // Add an event listener to the objectSelect dropdown
+        objectSelect.addEventListener('change', function () {
+            const selectedObject = objectSelect.value;
+
+            // Reset the displayed CRUD methods
+            createMethod.style.display = 'none';
+            readMethod.style.display = 'none';
+            updateMethod.style.display = 'none';
+            deleteMethod.style.display = 'none';
+
+            // Check the selected object and display the appropriate CRUD methods
+            if (selectedObject === 'songs' || selectedObject === 'albums' || selectedObject === 'artists') {
+                crudMethodsContainer.style.display = 'flex';
+                if (selectedObject === 'songs') {
+                    createMethod.style.display = 'block';
+                    readMethod.style.display = 'block';
+                    updateMethod.style.display = 'block';
+                    deleteMethod.style.display = 'block';
+                } else if (selectedObject === 'albums') {
+                    createMethod.style.display = 'block';
+                    readMethod.style.display = 'block';
+                } else if (selectedObject === 'artists') {
+                    createMethod.style.display = 'block';
+                    readMethod.style.display = 'block';
+                }
+            } else {
+                crudMethodsContainer.style.display = 'none';
+            }
+        });
+    </script>
+
+    <script src="songs.js"></script>
+</body>
+</html>

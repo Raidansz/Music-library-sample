@@ -1,0 +1,14 @@
+{
+  "name": "atwsmf_sgui_2022_23_2.jsweb-client",
+  "version": "0.0.0",
+  "description": "ATWSMF_SGUI_2022_23_2.JSWebClient",
+  "main": "server.js",
+  "author": {
+    "name": ""
+  },
+  "devDependencies": {
+    "eslint": "^8.21.0"
+  },
+  "eslintConfig": {
+  }
+}
