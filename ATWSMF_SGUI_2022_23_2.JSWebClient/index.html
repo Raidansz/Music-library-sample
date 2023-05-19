@@ -1,300 +1,255 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
+
 <head>
-    <title>Songs Database - CRUD Web App</title>
-
+    <title>Fetch Songs</title>
     <style>
-
         body {
             font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
 
         h1 {
             text-align: center;
+            margin: 2rem 0;
         }
 
-        .container {
-            margin-bottom: 20px;
+        .form-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
         }
 
-        .crud-selection {
+            .form-container h2 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+            }
+
+            .form-group input[type="text"] {
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+        .button-container {
             text-align: center;
         }
 
-        .crud-methods {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .method {
-            width: 24%;
-            padding: 10px;
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        form {
-            margin-bottom: 10px;
-        }
-
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-            button:hover {
-                background-color: #45a049;
+            .button-container button {
+                margin-right: 1rem;
             }
 
         table {
-            width: 100%;
+            width: 80%;
+            margin: 2rem auto;
+            background-color: #fff;
             border-collapse: collapse;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         th,
         td {
-            padding: 8px;
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f7f7f7;
+            font-weight: bold;
+            color: #333;
         }
 
         tr:hover {
             background-color: #f5f5f5;
         }
 
-        .method {
-            padding: 50px;
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
     </style>
+    <script>
+        const apiUrl = "http://localhost:4671/api/Song";
 
+        function fetchSongs() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const songsTable = document.getElementById("songs-table");
+                    data.forEach((song, index) => {
+                        const row = createSongRow(song, index);
+                        songsTable.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.log("Error fetching songs:", error);
+                });
+        }
+
+        function createSongRow(song, index) {
+            const row = document.createElement("tr");
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = song.name || "N/A";
+            row.appendChild(nameCell);
+
+            const durationCell = document.createElement("td");
+            durationCell.textContent = song.duration || "N/A";
+            row.appendChild(durationCell);
+
+            const albumCell = document.createElement("td");
+            albumCell.textContent = song.album && song.album.name ? song.album.name : "N/A";
+            row.appendChild(albumCell);
+
+            const actionsCell = document.createElement("td");
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", deleteSong);
+            actionsCell.appendChild(deleteButton);
+            row.appendChild(actionsCell);
+
+            row.classList.add("fade-in");
+            row.style.animationDelay = `${index * 0.1}s`;
+
+            return row;
+        }
+
+        function addSong() {
+            const name = document.getElementById("song-name").value.trim();
+            const duration = document.getElementById("song-duration").value.trim();
+            const album = document.getElementById("song-album").value.trim();
+
+            if (!name || !duration || !album) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const song = {
+                name,
+                duration,
+                album: { name }
+            };
+
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(song)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const songsTable = document.getElementById("songs-table");
+                        const row = createSongRow(data.song, songsTable.childElementCount);
+                        songsTable.appendChild(row);
+                        clearForm();
+                    } else {
+                        alert("Failed to add the song.");
+                    }
+                })
+                .catch(error => {
+                    console.log("Error adding song:", error);
+                    alert("Failed to add the song.");
+                });
+        }
+
+        function deleteSong(event) {
+            const row = event.target.parentNode.parentNode;
+            const songName = row.firstChild.textContent;
+
+            fetch(apiUrl, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: songName })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        row.remove();
+                    } else {
+                        console.log("Error deleting song:", data.error);
+                        alert("Failed to delete the song.");
+                    }
+                })
+                .catch(error => {
+                    console.log("Error deleting song:", error);
+                    alert("Failed to delete the song.");
+                });
+        }
+
+        function clearForm() {
+            document.getElementById("song-name").value = "";
+            document.getElementById("song-duration").value = "";
+            document.getElementById("song-album").value = "";
+        }
+    </script>
 </head>
+
 <body>
-    <h1>Songs Database - CRUD Web App</h1>
-
-    <div class="container">
-        <div class="crud-selection">
-            <label for="objectSelect">Please, select which one you would like to interact with:</label>
-            <select id="objectSelect">
-                <option value="">Choose Object</option>
-                <option value="songs">Songs</option>
-                <option value="albums">Albums</option>
-                <option value="artists">Artists</option>
-            </select>
+    <h1>Songs</h1>
+    <div class="form-container">
+        <h2>Add Song</h2>
+        <div class="form-group">
+            <label for="song-name">Name:</label>
+            <input type="text" id="song-name" required>
+        </div>
+        <div class="form-group">
+            <label for="song-duration">Duration:</label>
+            <input type="text" id="song-duration" required>
+        </div>
+        <div class="form-group">
+            <label for="song-album">Album:</label>
+            <input type="text" id="song-album" required>
+        </div>
+        <div class="button-container">
+            <button onclick="addSong()">Add Song</button>
+            <button onclick="clearForm()">Clear</button>
         </div>
     </div>
 
-    <div id="crudMethodsContainer" class="container" style="display: none;">
-        <div class="crud-methods">
-            <div id="createMethod" class="method">
-                <h3>Create</h3>
-                <form id="crudForm">
-                    <input type="text" id="nameInput" placeholder="Enter Name" required>
-
-                    <button type="submit">Add</button>
-                </form>
-            </div>
-
-            <div id="readMethod" class="method">
-                <h3>Read</h3>
-                <table id="resourcesTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <div id="updateMethod" class="method">
-                <h3>Update</h3>-->
-<!-- Update method UI elements go here -->
-<!--</div>
-
-<div id="deleteMethod" class="method">
-    <h3>Delete</h3>-->
-<!-- Delete method UI elements go here -->
-<!--</div>
-        </div>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Duration</th>
+                <th>Album</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="songs-table"></tbody>
+    </table>
 
     <script>
-        // JavaScript code for handling object selection and CRUD method display
-
-        // Get the necessary DOM elements
-        const objectSelect = document.getElementById('objectSelect');
-        const crudMethodsContainer = document.getElementById('crudMethodsContainer');
-        const createMethod = document.getElementById('createMethod');
-        const readMethod = document.getElementById('readMethod');
-        const updateMethod = document.getElementById('updateMethod');
-        const deleteMethod = document.getElementById('deleteMethod');
-
-        // Add an event listener to the objectSelect dropdown
-        objectSelect.addEventListener('change', function () {
-            const selectedObject = objectSelect.value;
-
-            // Reset the displayed CRUD methods
-            createMethod.style.display = 'none';
-            readMethod.style.display = 'none';
-            updateMethod.style.display = 'none';
-            deleteMethod.style.display = 'none';
-
-            // Check the selected object and display the appropriate CRUD methods
-            if (selectedObject === 'songs' || selectedObject === 'albums' || selectedObject === 'artists') {
-                crudMethodsContainer.style.display = 'flex';
-                if (selectedObject === 'songs') {
-                    createMethod.style.display = 'block';
-                    readMethod.style.display = 'block';
-                    // Add the necessary UI elements and logic for update and delete methods for songs
-                    updateMethod.innerHTML = '<h3>Update</h3><p>Add your update method UI elements here for songs</p>';
-                    deleteMethod.innerHTML = '<h3>Delete</h3><p>Add your delete method UI elements here for songs</p>';
-                    updateMethod.style.display = 'block';
-                    deleteMethod.style.display = 'block';
-                } else if (selectedObject === 'albums') {
-                    createMethod.style.display = 'block';
-                    readMethod.style.display = 'block';
-                    // Add the necessary UI elements and logic for update and delete methods for albums
-                    updateMethod.innerHTML = '<h3>Update</h3><p>Add your update method UI elements here for albums</p>';
-                    deleteMethod.innerHTML = '<h3>Delete</h3><p>Add your delete method UI elements here for albums</p>';
-                    updateMethod.style.display = 'block';
-                    deleteMethod.style.display = 'block';
-                } else if (selectedObject === 'artists') {
-                    createMethod.style.display = 'block';
-                    readMethod.style.display = 'block';
-                    // Add the necessary UI elements and logic for update and delete methods for artists
-                    updateMethod.innerHTML = '<h3>Update</h3><p>Add your update method UI elements here for artists</p>';
-                    deleteMethod.innerHTML = '<h3>Delete</h3><p>Add your delete method UI elements here for artists</p>';
-                    updateMethod.style.display = 'block';
-                    deleteMethod.style.display = 'block';
-                }
-            } else {
-                crudMethodsContainer.style.display = 'none';
-            }
-        });
+        fetchSongs();
     </script>
 </body>
-</html>-->
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Songs Database - CRUD Web App</title>
-
-    <style>
-        /* Your CSS styles here */
-    </style>
-
-</head>
-<body>
-    <h1>Songs Database - CRUD Web App</h1>
-
-    <div class="container">
-        <div class="crud-selection">
-            <label for="objectSelect">Please, select which one you would like to interact with:</label>
-            <select id="objectSelect">
-                <option value="">Choose Object</option>
-                <option value="songs">Songs</option>
-                <option value="albums">Albums</option>
-                <option value="artists">Artists</option>
-            </select>
-        </div>
-    </div>
-
-    <div id="crudMethodsContainer" class="container" style="display: none;">
-        <div class="crud-methods">
-            <div id="createMethod" class="method">
-                <h3>Create</h3>
-                <form id="crudForm">
-                    <input type="text" id="nameInput" placeholder="Enter Name" required>
-                    <button type="submit">Add</button>
-                </form>
-            </div>
-
-            <div id="readMethod" class="method">
-                <h3>Read</h3>
-                <table id="resourcesTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
-            <div id="updateMethod" class="method">
-                <h3>Update</h3>
-                <p>Add your update method UI elements here for songs</p>
-            </div>
-
-            <div id="deleteMethod" class="method">
-                <h3>Delete</h3>
-                <p>Add your delete method UI elements here for songs</p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Your existing JavaScript code for handling object selection and CRUD method display
-
-        // Get the necessary DOM elements
-        const objectSelect = document.getElementById('objectSelect');
-        const crudMethodsContainer = document.getElementById('crudMethodsContainer');
-        const createMethod = document.getElementById('createMethod');
-        const readMethod = document.getElementById('readMethod');
-        const updateMethod = document.getElementById('updateMethod');
-        const deleteMethod = document.getElementById('deleteMethod');
-
-        // Add an event listener to the objectSelect dropdown
-        objectSelect.addEventListener('change', function () {
-            const selectedObject = objectSelect.value;
-
-            // Reset the displayed CRUD methods
-            createMethod.style.display = 'none';
-            readMethod.style.display = 'none';
-            updateMethod.style.display = 'none';
-            deleteMethod.style.display = 'none';
-
-            // Check the selected object and display the appropriate CRUD methods
-            if (selectedObject === 'songs' || selectedObject === 'albums' || selectedObject === 'artists') {
-                crudMethodsContainer.style.display = 'flex';
-                if (selectedObject === 'songs') {
-                    createMethod.style.display = 'block';
-                    readMethod.style.display = 'block';
-                    updateMethod.style.display = 'block';
-                    deleteMethod.style.display = 'block';
-                } else if (selectedObject === 'albums') {
-                    createMethod.style.display = 'block';
-                    readMethod.style.display = 'block';
-                } else if (selectedObject === 'artists') {
-                    createMethod.style.display = 'block';
-                    readMethod.style.display = 'block';
-                }
-            } else {
-                crudMethodsContainer.style.display = 'none';
-            }
-        });
-    </script>
-
-    <script src="songs.js"></script>
-</body>
 </html>

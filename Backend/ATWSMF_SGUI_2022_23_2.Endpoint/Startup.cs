@@ -32,6 +32,18 @@ namespace ATWSMF_SGUI_2022_23_2.Endpoint
             services.AddTransient<IAlbumLogic, AlbumLogic>();
             services.AddTransient<ISongLogic, SongLogic>();
 
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .WithHeaders("Content-Type");
+                });
+            });
+
             // TODO: show Add controllers
             services.AddControllers();
         }
@@ -46,8 +58,11 @@ namespace ATWSMF_SGUI_2022_23_2.Endpoint
 
             app.UseRouting();
 
-
-
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:1337");
+            });
+            app.UseCors();
             app.UseEndpoints((config) =>
             {
                 // TODO: show register the controllers

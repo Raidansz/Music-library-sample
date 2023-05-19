@@ -1,5 +1,7 @@
 ﻿using ATWSMF_SGUI_2022_23_2.Logic.Interfaces;
 using ATWSMF_SGUI_2022_23_2.Models;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -8,9 +10,9 @@ namespace ATWSMF_SGUI_2022_23_2.Endpoint.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+
     public class SongController: ControllerBase
     {
-      
             ISongLogic SongLogic;
 
             public SongController(ISongLogic songLogic)

@@ -43,10 +43,10 @@
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="songs.js">
+    <Content Include="songs.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="styles.css">
+    <Content Include="songs.js">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>
