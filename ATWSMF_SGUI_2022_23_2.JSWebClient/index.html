@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -113,6 +122,7 @@
 
         function createSongRow(song, index) {
             const row = document.createElement("tr");
+            row.dataset.songId = song.id;
 
             const nameCell = document.createElement("td");
             nameCell.textContent = song.name || "N/A";
@@ -141,19 +151,22 @@
 
         function addSong() {
             const name = document.getElementById("song-name").value.trim();
-            const duration = document.getElementById("song-duration").value.trim();
-            const album = document.getElementById("song-album").value.trim();
+          /*  const duration = document.getElementById("song-duration").value.trim();*/
+           /* const album = document.getElementById("song-album").value.trim();*/
 
-            if (!name || !duration || !album) {
+            if (!name /*|| !duration*/ /*|| !album*/) {
                 alert("Please fill in all fields.");
                 return;
             }
-
             const song = {
-                name,
-                duration,
-                album: { name }
+                Name: name,
+               /* Duration: duration*/
             };
+            //const song = {
+            //    name,
+            //    duration,
+            //    album: { name }
+            //};
 
             fetch(apiUrl, {
                 method: "POST",
@@ -181,21 +194,16 @@
 
         function deleteSong(event) {
             const row = event.target.parentNode.parentNode;
-            const songName = row.firstChild.textContent;
+            const songId = row.dataset.songId;
 
-            fetch(apiUrl, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ name: songName })
+            fetch(`${apiUrl}/${songId}`, {
+                method: "DELETE"
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+                .then(response => {
+                    if (response.ok) {
                         row.remove();
                     } else {
-                        console.log("Error deleting song:", data.error);
+                        console.log("Error deleting song:", response.status);
                         alert("Failed to delete the song.");
                     }
                 })

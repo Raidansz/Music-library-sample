@@ -32,6 +32,14 @@ namespace ATWSMF_SGUI_2022_23_2.Endpoint
             services.AddTransient<IAlbumLogic, AlbumLogic>();
             services.AddTransient<ISongLogic, SongLogic>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:1337"); // Replace "http://example.com" with the actual origin you want to allow
+                    });
+            });
 
             services.AddCors(options =>
             {
@@ -56,12 +64,16 @@ namespace ATWSMF_SGUI_2022_23_2.Endpoint
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors((builder) =>
+           builder.AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowCredentials().WithOrigins("http://localhost:1337"));
+
             app.UseRouting();
 
-            app.UseCors(builder =>
-            {
-                builder.WithOrigins("http://localhost:1337");
-            });
+            app.UseAuthorization();
+
+            app.UseCors("AllowSpecificOrigin");
             app.UseCors();
             app.UseEndpoints((config) =>
             {
