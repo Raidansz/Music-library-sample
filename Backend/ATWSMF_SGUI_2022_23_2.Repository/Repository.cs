@@ -21,11 +21,13 @@ namespace ATWSMF_SGUI_2022_23_2.Repository
         public void AddNew(T entity)
         {
             context.Set<T>().Add(entity);
+            context.SaveChanges();
         }
 
         public void Delete(T entity)
         {
             context.Set<T>().Remove(entity);
+            context.SaveChanges();
         }
 
         public IQueryable<T> GetAll()
@@ -40,6 +42,7 @@ namespace ATWSMF_SGUI_2022_23_2.Repository
         public void Update(int id, T entity)
         {
             context.Set<T>().Update(entity);
+            context.SaveChanges();
         }
     }
 }
