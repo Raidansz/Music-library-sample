@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fetch Songs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .form-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+            }
+
+            .form-group input[type="text"] {
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+        .button-container {
+            text-align: center;
+        }
+
+            .button-container button {
+                margin-right: 1rem;
+            }
+
+        table {
+            width: 80%;
+            margin: 2rem auto;
+            background-color: #fff;
+            border-collapse: collapse;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f7f7f7;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* New styles for the update popup */
+        .popup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 400px;
+            max-width: 90%;
+        }
+
+            .popup h2 {
+                margin-bottom: 1rem;
+            }
+
+            .popup input[type="text"] {
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .popup .button-container {
+                text-align: right;
+                margin-top: 1rem;
+            }
+    </style>
+    <script>
+        const apiUrl = "http://localhost:4671/api/Song";
+
+        function fetchSongs() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const songsTable = document.getElementById("songs-table");
+                    data.forEach((song, index) => {
+                        const row = createSongRow(song, index);
+                        songsTable.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.log("Error fetching songs:", error);
+                });
+        }
+
+        function createSongRow(song, index) {
+            const row = document.createElement("tr");
+            row.setAttribute("data-song-id", song.id);
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = song.name;
+            row.appendChild(nameCell);
+
+            const durationCell = document.createElement("td");
+            durationCell.textContent = song.duration;
+            row.appendChild(durationCell);
+
+            const albumCell = document.createElement("td");
+            albumCell.textContent = song.album ? song.album.name : "N/A";
+            row.appendChild(albumCell);
+
+            const actionsCell = document.createElement("td");
+            const updateButton = document.createElement("button");
+            updateButton.textContent = "Update";
+            updateButton.addEventListener("click", () => openUpdatePopup(song));
+            actionsCell.appendChild(updateButton);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", () => deleteSong(song.id));
+            actionsCell.appendChild(deleteButton);
+
+            row.appendChild(actionsCell);
+
+            return row;
+        }
+
+
+        function addSong() {
+            const name = document.getElementById("song-name").value.trim();
+            const duration = document.getElementById("song-duration").value.trim();
+            const album = document.getElementById("song-album").value.trim();
+
+            if (!name) {
+                alert("Please fill in the name field.");
+                return;
+            }
+            if (!duration || isNaN(parseInt(duration))) {
+                alert("Please enter a valid duration (integer value).");
+                return;
+            }
+
+            const song = {
+                Name: name,
+                Duration: parseInt(duration),
+                Album: {
+                    Name: album
+                }
+            };
+
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(song)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        const songsTable = document.getElementById("songs-table");
+                        const row = createSongRow(data, songsTable.childElementCount);
+                        songsTable.appendChild(row);
+                        clearForm();
+                    } else {
+                        alert("Failed to add the song.");
+                    }
+                })
+
+        }
+
+
+
+        function deleteSong(songId) {
+            fetch(`${apiUrl}/${songId}`, {
+                method: "DELETE"
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const row = document.querySelector(`tr[data-song-id="${songId}"]`);
+                        row.remove();
+                    } else {
+                        throw new Error(`Failed to delete the song. Error code: ${response.status}`);
+                    }
+                })
+                .catch(error => {
+                    console.log("Error deleting song:", error);
+                    alert(error.message);
+                });
+        }
+        function openUpdatePopup(song) {
+            const popupContainer = document.createElement("div");
+            popupContainer.classList.add("popup-container");
+
+            const popup = document.createElement("div");
+            popup.classList.add("popup");
+
+            const title = document.createElement("h2");
+            title.textContent = "Update Song";
+            popup.appendChild(title);
+
+            const nameInputLabel = document.createElement("label");
+            nameInputLabel.setAttribute("for", "update-song-name");
+            nameInputLabel.textContent = "Name";
+
+            const nameInput = document.createElement("input");
+            nameInput.setAttribute("type", "text");
+            nameInput.setAttribute("id", "update-song-name");
+            nameInput.setAttribute("value", song.name);
+
+            const durationInputLabel = document.createElement("label");
+            durationInputLabel.setAttribute("for", "update-song-duration");
+            durationInputLabel.textContent = "Duration";
+
+            const durationInput = document.createElement("input");
+            durationInput.setAttribute("type", "text");
+            durationInput.setAttribute("id", "update-song-duration");
+            durationInput.setAttribute("value", song.duration);
+
+            const albumInputLabel = document.createElement("label");
+            albumInputLabel.setAttribute("for", "update-song-album");
+            albumInputLabel.textContent = "Album";
+
+            const albumInput = document.createElement("input");
+            albumInput.setAttribute("type", "text");
+            albumInput.setAttribute("id", "update-song-album");
+            albumInput.setAttribute("value", song.album ? song.album.name : "");
+
+            const updateButton = document.createElement("button");
+            updateButton.textContent = "Update";
+            updateButton.addEventListener("click", () => {
+                const newName = document.getElementById("update-song-name").value.trim();
+                const newDuration = document.getElementById("update-song-duration").value.trim();
+                const newAlbum = document.getElementById("update-song-album").value.trim();
+
+                if (!newName || !newDuration) {
+                    alert("Please fill in the required fields.");
+                    return;
+                }
+
+                 updatedSong = {
+                     Id:song.id,
+                     Name: newName,
+                    Duration: parseInt(newDuration),
+                    Album: {
+                        Name: newAlbum
+                    }
+                };
+
+                deleteSong(song.id); // Delete the existing song
+
+                fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updatedSong)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            const songsTable = document.getElementById("songs-table");
+                            const row = createSongRow(data, songsTable.childElementCount);
+                            songsTable.appendChild(row);
+                            clearForm();
+                        } else {
+                            //alert("Failed to add the song.");
+                        }
+                    })
+
+
+                closeUpdatePopup();
+            });
+
+            const cancelButton = document.createElement("button");
+            cancelButton.textContent = "Cancel";
+            cancelButton.addEventListener("click", closeUpdatePopup);
+
+            popup.appendChild(nameInputLabel);
+            popup.appendChild(nameInput);
+            popup.appendChild(durationInputLabel);
+            popup.appendChild(durationInput);
+            popup.appendChild(albumInputLabel);
+            popup.appendChild(albumInput);
+            popup.appendChild(updateButton);
+            popup.appendChild(cancelButton);
+
+            popupContainer.appendChild(popup);
+            document.body.appendChild(popupContainer);
+
+            setTimeout(() => popupContainer.classList.add("fade-in"), 10);
+        }
+
+        function closeUpdatePopup() {
+            const popupContainer = document.querySelector(".popup-container");
+            popupContainer.classList.remove("fade-in");
+            setTimeout(() => popupContainer.remove(), 300);
+        }
+
+        function updateSong(songId) {
+            const newName = document.getElementById("update-song-name").value.trim();
+            const newDuration = document.getElementById("update-song-duration").value.trim();
+            const newAlbum = document.getElementById("update-song-album").value.trim();
+
+            if (!newName || !newDuration) {
+                alert("Please fill in the required fields.");
+                return;
+            }
+
+            const updatedSong = {
+                Name: newName,
+                Duration: parseInt(newDuration),
+                Album: {
+                    Name: newAlbum
+                }
+            };
+
+            fetch(`${apiUrl}/${songId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updatedSong)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const row = document.querySelector(`tr[data-song-id="${songId}"]`);
+                        row.cells[0].textContent = newName;
+                        row.cells[1].textContent = newDuration;
+                        row.cells[2].textContent = newAlbum || "N/A";
+                        closeUpdatePopup();
+                    } else {
+                        throw new Error(`Failed to update the song. Error code: ${response.status}`);
+                    }
+                })
+                .catch(error => {
+                    console.log("Error updating song:", error);
+                    if (error.message.includes("Failed to update the song. Error code: 400")) {
+                        alert("Unable to update the song. Please check your input.");
+                    } else {
+                        alert(error.message);
+                    }
+                });
+        }
+    </script>
+</head>
+
+<body onload="fetchSongs()">
+    <h1>Fetch Songs</h1>
+
+    <div class="form-container">
+        <div class="form-group">
+            <label for="song-name">Name</label>
+            <input type="text" id="song-name" placeholder="Enter song name">
+        </div>
+
+        <div class="form-group">
+            <label for="song-duration">Duration (seconds)</label>
+            <input type="text" id="song-duration" placeholder="Enter song duration">
+        </div>
+
+        <div class="form-group">
+            <label for="song-album">Album</label>
+            <input type="text" id="song-album" placeholder="Enter album name">
+        </div>
+
+        <div class="button-container">
+            <button onclick="addSong()">Add Song</button>
+        </div>
+    </div>
+
+    <table id="songs-table">
+        <tr>
+            <th>Name</th>
+            <th>Duration (seconds)</th>
+            <th>Album</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+</body>
+
+</html>
+
+
+
+
