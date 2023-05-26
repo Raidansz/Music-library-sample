@@ -54,15 +54,28 @@ namespace ATWSMF_SGUI_2022_23_2.Endpoint.Controllers
         #region
 
         // PUT: api/Album/5
+
+        // PUT
+        #region
+        // PUT: api/Album/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Album album)
         {
-
-            var album = this.AlbumLogic.GetOneAlbum(id);
-            album.Name = value;
-            this.AlbumLogic.UpdateAlbum(album);
-
+            var existingAlbum = this.AlbumLogic.GetOneAlbum(id);
+            existingAlbum.Name = album.Name;
+            this.AlbumLogic.UpdateAlbum(existingAlbum);
         }
+        #endregion
+
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+
+        //    var album = this.AlbumLogic.GetOneAlbum(id);
+        //    album.Name = value;
+        //    this.AlbumLogic.UpdateAlbum(album);
+
+        //}
         #endregion
 
         // DELETE

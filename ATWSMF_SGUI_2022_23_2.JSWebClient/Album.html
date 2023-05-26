@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fetch Albums</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .form-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+            }
+
+            .form-group input[type="text"] {
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+        .button-container {
+            text-align: center;
+        }
+
+            .button-container button {
+                margin-right: 1rem;
+            }
+
+        table {
+            width: 80%;
+            margin: 2rem auto;
+            background-color: #fff;
+            border-collapse: collapse;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f7f7f7;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* New styles for the update popup */
+        .popup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 400px;
+            max-width: 90%;
+        }
+
+            .popup h2 {
+                margin-bottom: 1rem;
+            }
+
+            .popup input[type="text"] {
+                width: 100%;
+                padding: 0.5rem;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+            .popup .button-container {
+                text-align: right;
+                margin-top: 1rem;
+            }
+    </style>
+    <script>
+        const apiUrl = "http://localhost:4671/api/Albums";
+
+        function fetchAlbums() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const albumsTable = document.getElementById("albums-table");
+                    data.forEach((album, index) => {
+                        const row = createAlbumRow(album, index);
+                        albumsTable.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.log("Error fetching albums:", error);
+                });
+        }
+
+        function createAlbumRow(album, index) {
+            const row = document.createElement("tr");
+            row.setAttribute("data-album-id", album.id);
+
+            const nameCell = document.createElement("td");
+            nameCell.textContent = album.Name;
+            row.appendChild(nameCell);
+
+            const actionsCell = document.createElement("td");
+            const updateButton = document.createElement("button");
+            updateButton.textContent = "Update";
+            updateButton.addEventListener("click", () => openUpdatePopup(album));
+            actionsCell.appendChild(updateButton);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", () => deleteAlbum(album.id));
+            actionsCell.appendChild(deleteButton);
+
+            row.appendChild(actionsCell);
+
+            return row;
+        }
+
+        function addAlbum() {
+            const name = document.getElementById("album-name").value.trim();
+
+            if (!name) {
+                alert("Please fill in the name field.");
+                return;
+            }
+
+            const album = {
+                Name: name
+            };
+
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(album)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        const albumsTable = document.getElementById("albums-table");
+                        const row = createAlbumRow(data, albumsTable.childElementCount);
+                        albumsTable.appendChild(row);
+                        clearForm();
+                    } else {
+                        alert("Failed to add the album.");
+                    }
+                })
+                .catch(error => {
+                    console.log("Error adding album:", error);
+                });
+        }
+
+        function deleteAlbum(albumId) {
+            fetch(`${apiUrl}/${albumId}`, {
+                method: "DELETE"
+            })
+                .then(response => {
+                    if (response.ok) {
+                        const row = document.querySelector(`tr[data-album-id="${albumId}"]`);
+                        row.remove();
+                    } else {
+                        throw new Error(`Failed to delete the album. Error code: ${response.status}`);
+                    }
+                })
+                .catch(error => {
+                    console.log("Error deleting album:", error);
+                    alert(error.message);
+                });
+        }
+
+        function openUpdatePopup(album) {
+            const popupContainer = document.createElement("div");
+            popupContainer.classList.add("popup-container");
+
+            const popup = document.createElement("div");
+            popup.classList.add("popup");
+
+            const title = document.createElement("h2");
+            title.textContent = "Update Album";
+            popup.appendChild(title);
+
+            const nameInputLabel = document.createElement("label");
+            nameInputLabel.setAttribute("for", "update-album-name");
+            nameInputLabel.textContent = "Name";
+
+            const nameInput = document.createElement("input");
+            nameInput.setAttribute("type", "text");
+            nameInput.setAttribute("id", "update-album-name");
+            nameInput.setAttribute("value", album.name);
+
+            const updateButton = document.createElement("button");
+            updateButton.textContent = "Update";
+            updateButton.addEventListener("click", () => {
+                const newName = document.getElementById("update-album-name").value.trim();
+
+                if (!newName) {
+                    alert("Please fill in the required fields.");
+                    return;
+                }
+
+                const updatedAlbum = {
+                    name: newName
+                };
+
+                fetch(`${apiUrl}/${album.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(updatedAlbum)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            const row = document.querySelector(`tr[data-album-id="${album.id}"]`);
+                            row.cells[0].textContent = newName;
+
+                            closeUpdatePopup();
+                        } else {
+                            throw new Error(`Failed to update the album. Error code: ${response.status}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.log("Error updating album:", error);
+                        if (error.message.includes("Failed to update the album. Error code: 400")) {
+                            alert("Unable to update the album. Please check your input.");
+                        } else {
+                            alert(error.message);
+                        }
+                    });
+            });
+
+            const cancelButton = document.createElement("button");
+            cancelButton.textContent = "Cancel";
+            cancelButton.addEventListener("click", closeUpdatePopup);
+
+            popup.appendChild(nameInputLabel);
+            popup.appendChild(nameInput);
+            popup.appendChild(updateButton);
+            popup.appendChild(cancelButton);
+
+            popupContainer.appendChild(popup);
+            document.body.appendChild(popupContainer);
+
+            setTimeout(() => popupContainer.classList.add("fade-in"), 10);
+        }
+
+        function closeUpdatePopup() {
+            const popupContainer = document.querySelector(".popup-container");
+            popupContainer.classList.remove("fade-in");
+            setTimeout(() => popupContainer.remove(), 300);
+        }
+    </script>
+</head>
+
+<body onload="fetchAlbums()">
+    <h1>Fetch Albums</h1>
+
+    <div class="form-container">
+        <div class="form-group">
+            <label for="album-name">Name</label>
+            <input type="text" id="album-name" placeholder="Enter album name">
+        </div>
+
+        <div class="button-container">
+            <button onclick="addAlbum()">Add Album</button>
+        </div>
+    </div>
+
+    <table id="albums-table">
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+</body>
+
+</html>

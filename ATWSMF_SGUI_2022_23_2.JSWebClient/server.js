@@ -19,7 +19,7 @@ const server = http.createServer(function (req, res) {
 
     // Serve static files
     if (req.url === '/') {
-        fs.readFile(path.join(__dirname, 'index.html'), 'utf8', function (err, content) {
+        fs.readFile(path.join(__dirname, 'Album.html'), 'utf8', function (err, content) {
             if (err) {
                 res.writeHead(500, { 'Content-Type': 'text/plain' });
                 res.end('Internal Server Error');

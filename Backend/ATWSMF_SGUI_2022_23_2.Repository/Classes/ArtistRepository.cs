@@ -16,7 +16,7 @@ namespace ATWSMF_SGUI_2022_23_2.Repository.Classes
         public ArtistRepository(DbContext context) : base(context)
         {
         }
-
+        
         public void AddNewArtist(Artist artist)
         {
             context.Add(artist);
