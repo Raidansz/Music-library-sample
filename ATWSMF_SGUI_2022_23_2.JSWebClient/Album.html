@@ -125,13 +125,14 @@
             }
     </style>
     <script>
-        const apiUrl = "http://localhost:4671/api/Albums";
+        const apiUrl = "http://localhost:4671/api/Album";
 
         function fetchAlbums() {
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
                     const albumsTable = document.getElementById("albums-table");
+                    albumsTable.innerHTML = "";
                     data.forEach((album, index) => {
                         const row = createAlbumRow(album, index);
                         albumsTable.appendChild(row);
@@ -147,7 +148,7 @@
             row.setAttribute("data-album-id", album.id);
 
             const nameCell = document.createElement("td");
-            nameCell.textContent = album.Name;
+            nameCell.textContent = album.Name || album.name;
             row.appendChild(nameCell);
 
             const actionsCell = document.createElement("td");
@@ -199,6 +200,7 @@
                 .catch(error => {
                     console.log("Error adding album:", error);
                 });
+            setTimeout(fetchAlbums, 100);
         }
 
         function deleteAlbum(albumId) {
