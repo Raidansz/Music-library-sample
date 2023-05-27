@@ -20,12 +20,12 @@ namespace ATWSMF_SGUI_2022_23_2.Models
         //public DateTime Age { get; set; }
 
 
-        //Navigation prop
+        ////Navigation prop
         [JsonIgnore]
         [NotMapped]
         public virtual ICollection<Song> Songs { get; set; }
-        [JsonIgnore]
-        [NotMapped]
-        public virtual ICollection<Album> Albums { get; set; }
+        //[JsonIgnore]
+        //[NotMapped]
+        //public virtual ICollection<Album> Albums { get; set; }
     }
 }

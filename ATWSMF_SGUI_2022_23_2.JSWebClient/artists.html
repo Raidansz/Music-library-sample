@@ -1,4 +1,25 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -129,11 +150,29 @@
     <script>
         const apiUrl = "http://localhost:4671/api/Artist";
 
+        //function fetchArtists() {
+        //    fetch(apiUrl)
+        //        .then(response => response.json())
+        //        .then(data => {
+        //            const artistsTable = document.getElementById("artists-table");
+        //            data.forEach((artist, index) => {
+        //                const row = createArtistRow(artist, index);
+        //                artistsTable.appendChild(row);
+        //            });
+        //        })
+        //        .catch(error => {
+        //            console.log("Error fetching artists:", error);
+        //        });
+      //  }
+
         function fetchArtists() {
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
                     const artistsTable = document.getElementById("artists-table");
+                    // Clear existing table data
+                    artistsTable.innerHTML = "";
+
                     data.forEach((artist, index) => {
                         const row = createArtistRow(artist, index);
                         artistsTable.appendChild(row);
@@ -143,6 +182,7 @@
                     console.log("Error fetching artists:", error);
                 });
         }
+
 
         function createArtistRow(artist, index) {
             const row = document.createElement("tr");
@@ -170,6 +210,7 @@
         }
 
 
+
         function addArtist() {
             const name = document.getElementById("artist-name").value.trim();
 
@@ -181,10 +222,9 @@
 
 
             const artist = {
-                Name: name
+                Name: name,
 
             };
-
 
             fetch(apiUrl, {
                 method: "POST",
@@ -192,6 +232,7 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(artist)
+
             })
                 .then(response => response.json())
                 .then(data => {
@@ -201,11 +242,14 @@
                         artistsTable.appendChild(row);
                         clearForm();
                     } else {
-                        alert("Failed to add the Artist.");
+                        alert("Failed to add the artist.");
                     }
                 })
-
+            setTimeout(fetchArtists, 100);
+           
         }
+
+    
 
 
 
@@ -247,13 +291,13 @@
             nameInput.setAttribute("id", "update-artist-name");
             nameInput.setAttribute("value", artist.name);
 
-           
+
 
             const updateButton = document.createElement("button");
             updateButton.textContent = "Update";
             updateButton.addEventListener("click", () => {
                 const newName = document.getElementById("update-artist-name").value.trim();
-               
+
 
                 if (!newName ) {
                     alert("Please fill in the required fields.");
@@ -261,12 +305,12 @@
                 }
 
                 updatedArtist = {
-                    Id: artist.id,
-                    Name: newName,
                    
+                    Name: newName,
+
                 };
 
-                deleteArtist(artist.id); 
+                deleteArtist(artist.id);
 
                 fetch(apiUrl, {
                     method: "POST",
@@ -283,12 +327,13 @@
                             artistsTable.appendChild(row);
                             clearForm();
                         } else {
-                           
+
                         }
                     })
 
 
                 closeUpdatePopup();
+                setTimeout(fetchArtists, 100);
             });
 
             const cancelButton = document.createElement("button");
@@ -297,7 +342,7 @@
 
             popup.appendChild(nameInputLabel);
             popup.appendChild(nameInput);
-            
+
             popup.appendChild(updateButton);
             popup.appendChild(cancelButton);
 
@@ -313,46 +358,47 @@
             setTimeout(() => popupContainer.remove(), 300);
         }
 
-        function updateArtist(artistId) {
-            const newName = document.getElementById("update-artist-name").value.trim();
-           
+        //function updateArtist(artistId) {
+        //    const newName = document.getElementById("update-artist-name").value.trim();
 
-            if (!newName ) {
-                alert("Please fill in the required fields.");
-                return;
-            }
 
-            const updatedArtist = {
-                Name: newName,
-              
-            };
+        //    if (!newName ) {
+        //        alert("Please fill in the required fields.");
+        //        return;
+        //    }
 
-            fetch(`${apiUrl}/${artistId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedArtist)
-            })
-                .then(response => {
-                    if (response.ok) {
-                        const row = document.querySelector(`tr[data-artist-id="${artistId}"]`);
-                        row.cells[0].textContent = newName;
-                       
-                        closeUpdatePopup();
-                    } else {
-                        throw new Error(`Failed to update the artist. Error code: ${response.status}`);
-                    }
-                })
-                .catch(error => {
-                    console.log("Error updating artist:", error);
-                    if (error.message.includes("Failed to update the artist. Error code: 400")) {
-                        alert("Unable to update the artist. Please check your input.");
-                    } else {
-                        alert(error.message);
-                    }
-                });
-        }
+        //    const updatedArtist = {
+        //        Name: newName,
+
+        //    };
+
+        //    fetch(`${apiUrl}/${artistId}`, {
+        //        method: "PUT",
+        //        headers: {
+        //            "Content-Type": "application/json"
+        //        },
+        //        body: JSON.stringify(updatedArtist)
+        //    })
+        //        .then(response => {
+        //            if (response.ok) {
+        //                const row = document.querySelector(`tr[data-artist-id="${artistId}"]`);
+        //                row.cells[0].textContent = newName;
+
+        //                closeUpdatePopup();
+        //            } else {
+        //                throw new Error(`Failed to update the artist. Error code: ${response.status}`);
+        //            }
+        //        })
+        //        .catch(error => {
+        //            console.log("Error updating artist:", error);
+        //            if (error.message.includes("Failed to update the artist. Error code: 400")) {
+        //                alert("Unable to update the artist. Please check your input.");
+        //            } else {
+        //                alert(error.message);
+        //            }
+        //        });
+        //    setTimeout(fetchArtists, 100);
+        //}
     </script>
 </head>
 
@@ -365,7 +411,7 @@
             <input type="text" id="artist-name" placeholder="Enter artist name">
         </div>
 
-       
+
 
         <div class="button-container">
             <button onclick="addArtist()">Add Artist</button>
@@ -375,14 +421,10 @@
     <table id="artists-table">
         <tr>
             <th>Name</th>
-           
+
             <th>Actions</th>
         </tr>
     </table>
 </body>
 
 </html>
-
-
-
-
